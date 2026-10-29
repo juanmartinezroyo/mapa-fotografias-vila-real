@@ -366,17 +366,7 @@ html, body {
   transform: scale(1.2);
 }
 
-/* Marcadors temporals de segle i dècades */
-.timeline-ticks {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.68rem;
-  color: var(--color-text-light);
-  font-weight: 600;
-  margin-top: 2px;
-  padding: 0 2px;
-  user-select: none;
-}
+
 
 /* Botó reset */
 .reset-button {
