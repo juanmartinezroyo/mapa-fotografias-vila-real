@@ -58,6 +58,16 @@
             <span>Galeria</span>
           </button>
         </div>
+
+        <!-- Botó d'accés a l'espai de creació de fitxers XML per a l'alumnat -->
+        <button id="btn-open-creator" class="btn-create-xml" title="Crear fitxer XML d'entrega">
+          <span class="btn-plus-symbol">+</span>
+          <svg class="btn-camera-svg" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <span class="btn-label-text">Crear XML</span>
+        </button>
       </div>
     </header>
 
@@ -216,6 +226,326 @@
           <div class="modal-caption">
             <h3 id="modal-caption-title">Títol</h3>
             <span id="modal-caption-year">Any</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- ESPAI DE CREACIÓ XML PER A L'ALUMNAT                               -->
+    <!-- ================================================================== -->
+    <div id="xml-creator-space" class="xml-creator-space" aria-hidden="true" style="display: none;">
+      <!-- Barra superior de l'espai de creació -->
+      <div class="creator-header">
+        <div class="creator-header-brand">
+          <div class="creator-badge-icon">
+            <span class="badge-plus">+</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+          <div>
+            <h2>Creador d'Entregues XML per a l'Alumnat</h2>
+            <p class="creator-subtitle">Genera el fitxer XML segons les normes del projecte de forma senzilla</p>
+          </div>
+        </div>
+
+        <div class="creator-header-actions">
+          <button id="btn-close-creator" class="btn-creator-exit" type="button" title="Tornar al mapa principal">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Tornar al Mapa Principal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cos de l'espai: Mapa a l'esquerra + Formulari a la dreta -->
+      <div class="creator-main-body">
+
+        <!-- Zona del Mapa -->
+        <div class="creator-map-pane">
+          <div id="creator-map"></div>
+
+          <!-- Selector de Capes del mapa creador -->
+          <div class="creator-layer-selector">
+            <button id="creator-layer-osm" class="layer-pill active" type="button">Color</button>
+            <button id="creator-layer-satellite" class="layer-pill" type="button">Satèl·lit</button>
+          </div>
+
+          <!-- Burbuja d'instruccions interactiva -->
+          <div id="creator-instructions-bubble" class="creator-bubble">
+            <div class="bubble-header">
+              <div class="bubble-icon-wrap">
+                <span class="bubble-icon">📍</span>
+              </div>
+              <div class="bubble-title-group">
+                <span class="bubble-step-badge" id="bubble-step-badge">Pas 1 de 3</span>
+                <h4 id="bubble-title">Selecciona el lloc al mapa</h4>
+              </div>
+            </div>
+            <p id="bubble-desc" class="bubble-text">
+              Fes clic sobre el mapa en el <strong>punt exacte de Vila-real</strong> on es va fer la fotografia. Pots fer zoom i moure't per reconèixer el carrer, plaça o edifici.
+            </p>
+            <div class="bubble-steps-indicator">
+              <span class="bubble-step active" id="bstep-1">1. Tria lloc</span>
+              <span class="bubble-step-arrow">→</span>
+              <span class="bubble-step" id="bstep-2">2. Omple dades</span>
+              <span class="bubble-step-arrow">→</span>
+              <span class="bubble-step" id="bstep-3">3. Descarrega XML</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zona del Formulari -->
+        <div id="creator-form-pane" class="creator-form-pane">
+          <div class="form-pane-inner">
+
+            <div class="form-pane-intro">
+              <div class="intro-title-wrap">
+                <h3>📝 Fitxa de la fotografia</h3>
+                <span class="required-legend"><span class="req">*</span> camps obligatoris</span>
+              </div>
+              <p class="intro-helper">Les coordenades s'omplin automàticament en fer clic al mapa. Després només cal completar la informació i prémer descarregar.</p>
+            </div>
+
+            <!-- Caixa de Coordenades seleccionades -->
+            <div class="coords-box" id="coords-status-box">
+              <div class="coords-header-row">
+                <span class="coords-state-label">
+                  <span class="status-indicator-dot" id="coords-dot"></span>
+                  <strong id="coords-state-text">Cap punt seleccionat</strong>
+                </span>
+                <span class="coords-tip" id="coords-tip-text">Fes clic al mapa per fixar la posició</span>
+              </div>
+              <div class="coords-chips-row" id="coords-chips-row" style="display: none;">
+                <div class="coord-chip">
+                  <span class="coord-tag">Latitud:</span>
+                  <span class="coord-num" id="display-lat">-</span>
+                </div>
+                <div class="coord-chip">
+                  <span class="coord-tag">Longitud:</span>
+                  <span class="coord-num" id="display-lon">-</span>
+                </div>
+                <button type="button" id="btn-recenter-creator-map" class="btn-chip-action" title="Centrar el mapa en aquest punt">🎯 Centrar</button>
+              </div>
+            </div>
+
+            <!-- Formulari interactiu -->
+            <form id="xml-creator-form" novalidate>
+
+              <!-- BLOC 1: DADES DE LA FOTO -->
+              <div class="form-card-section">
+                <div class="section-badge-header">
+                  <span class="badge-num">1</span>
+                  <h4>Dades principals de la imatge</h4>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-titol">Títol de la fotografia <span class="req">*</span></label>
+                  <input type="text" id="form-titol" placeholder="Ex: Vista de la Plaça Major amb els Porxis" required autocomplete="off" />
+                  <span class="field-help">Títol clar, breu i representatiu.</span>
+                </div>
+
+                <div class="form-field file-picker-field">
+                  <label for="form-image-file">Fotografia digitalitzada (JPG, JPEG o PNG) <span class="req">*</span></label>
+                  <div class="file-drop-area" id="file-drop-area">
+                    <input type="file" id="form-image-file" accept="image/jpeg,image/png,image/jpg" class="file-input-hidden" />
+                    <div class="file-drop-content">
+                      <div class="drop-icon">📷</div>
+                      <div class="drop-texts">
+                        <span class="drop-main-text">Tria la teua fotografia de l'ordinador</span>
+                        <span class="drop-sub-text">Extreurà el nom del fitxer automàticament (o pots escriure'l baix)</span>
+                      </div>
+                      <button type="button" class="btn-browse-file" onclick="document.getElementById('form-image-file').click()">Explorar fitxer</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preview en miniatura si seleccionen un fitxer -->
+                <div id="file-preview-card" class="file-preview-card" style="display: none;">
+                  <img id="image-preview-thumb" src="" alt="Vista prèvia" />
+                  <div class="preview-details">
+                    <strong id="preview-filename">nom_foto.jpg</strong>
+                    <span id="preview-filesize">0 KB</span>
+                  </div>
+                  <button type="button" id="btn-remove-selected-file" class="btn-remove-file" title="Treure fotografia">&times;</button>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-filename">Nom exacte de l'arxiu d'imatge <span class="req">*</span></label>
+                  <input type="text" id="form-filename" placeholder="Ex: vr_1925_placa_major.jpg" required />
+                  <span class="field-help">Ha d'acabar en <strong>.jpg</strong>, <strong>.jpeg</strong> o <strong>.png</strong>.</span>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-field">
+                    <label for="form-any">Any de la foto <span class="req">*</span></label>
+                    <input type="number" id="form-any" min="1840" max="2025" placeholder="Ex: 1925" required />
+                  </div>
+                  <div class="form-field checkbox-field">
+                    <label class="custom-checkbox-container" for="form-exact-year">
+                      <input type="checkbox" id="form-exact-year" checked />
+                      <span class="checkmark"></span>
+                      <span class="checkbox-title">Any exacte</span>
+                    </label>
+                    <span class="field-help">Desmarca si és una data aproximada.</span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-categoria">Categoria temàtica <span class="req">*</span></label>
+                  <select id="form-categoria" required>
+                    <option value="">-- Selecciona una de les 5 categories --</option>
+                    <option value="arquitectura">🏛️ Arquitectura (edificis, places, carrers, patrimoni)</option>
+                    <option value="infraestructura">🛤️ Infraestructura (ponts, estació, sèquies, transport)</option>
+                    <option value="vida quotidiana">🧺 Vida quotidiana (treball, mercat, costums, escola)</option>
+                    <option value="esdeveniments">🎉 Esdeveniments (festes patronals, bous, actes)</option>
+                    <option value="personatges">👥 Personatges (retrats, veïns històrics, grups)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- BLOC 2: UBICACIÓ I TOPONÍMIA -->
+              <div class="form-card-section">
+                <div class="section-badge-header">
+                  <span class="badge-num">2</span>
+                  <h4>Ubicació i Carrer</h4>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-toponim">Topònim històric o nom del lloc</label>
+                  <input type="text" id="form-toponim" placeholder="Ex: Plaça de la Vila / Séquia Major / El Termet" />
+                  <span class="field-help">Com s'anomena o s'anomenava popularment aquest punt.</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-carrer">Carrer actual de Vila-real</label>
+                  <input type="text" id="form-carrer" placeholder="Ex: Carrer Major Sant Jaume, 12 / Plaça Major" />
+                  <span class="field-help">Nom oficial hui en dia per a localitzar-lo fàcilment.</span>
+                </div>
+              </div>
+
+              <!-- BLOC 3: DESCRIPCIÓ I ETIQUETES -->
+              <div class="form-card-section">
+                <div class="section-badge-header">
+                  <span class="badge-num">3</span>
+                  <h4>Descripció històrica i Etiquetes</h4>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-descripcio">Context i descripció històrica <span class="req">*</span></label>
+                  <textarea id="form-descripcio" rows="4" placeholder="Explica detalladament què es veu a la imatge, qui hi apareix, quin context històric tenia i per què és rellevant per a Vila-real..." required></textarea>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-temes">Temes / Paraules clau</label>
+                  <input type="text" id="form-temes" placeholder="Ex: ajuntament, porxis, mercat, diumenge" />
+                  <span class="field-help">Escriu diverses etiquetes separades per comes.</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-personatges">Personatges identificats</label>
+                  <input type="text" id="form-personatges" placeholder="Ex: Vicent Rochera, familiars, veïns" />
+                  <span class="field-help">Noms de persones que s'hi reconeixen (separats per comes).</span>
+                </div>
+              </div>
+
+              <!-- BLOC 4: DADES DE L'ALUMNE/A -->
+              <div class="form-card-section">
+                <div class="section-badge-header">
+                  <span class="badge-num">4</span>
+                  <h4>Dades de l'Alumne/a (autoria)</h4>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-field">
+                    <label for="form-alumne-nom">Nom i cognoms de l'alumne/a <span class="req">*</span></label>
+                    <input type="text" id="form-alumne-nom" placeholder="Ex: Laura Bellmunt Ramos" required />
+                  </div>
+                  <div class="form-field">
+                    <label for="form-alumne-curs">Curs / Grup escolar <span class="req">*</span></label>
+                    <input type="text" id="form-alumne-curs" placeholder="Ex: 4t ESO A" required />
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="form-donant">Procedència / Arxiu de la fotografia</label>
+                  <input type="text" id="form-donant" placeholder="Ex: Àlbum familiar de la família Bellmunt / Arxiu privat" />
+                  <span class="field-help">D'on prové la fotografia original aportada.</span>
+                </div>
+              </div>
+
+              <!-- BOTONS D'ACCIÓ -->
+              <div class="creator-form-footer">
+                <button type="submit" id="btn-download-xml-action" class="btn-creator-download">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Descarregar Fitxer XML</span>
+                </button>
+
+                <button type="button" id="btn-preview-xml-action" class="btn-creator-preview">
+                  <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Previsualitzar XML</span>
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MODAL DE PREVISUALITZACIÓ I CONFIRMACIÓ DE DESCÀRREGA XML -->
+    <div id="xml-modal" class="modal xml-modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-backdrop" id="xml-modal-backdrop"></div>
+      <div class="modal-wrapper xml-modal-wrapper">
+        <div class="xml-modal-card">
+          <div class="xml-modal-header">
+            <div class="xml-modal-title-wrap">
+              <span class="xml-icon-badge">📄</span>
+              <div>
+                <h3 id="xml-modal-title">Previsualització del Fitxer XML</h3>
+                <p id="xml-modal-subtitle">Estructurat segons l'esquema de validació oficial</p>
+              </div>
+            </div>
+            <button id="btn-close-xml-modal" class="modal-close-btn" type="button" title="Tancar">&times;</button>
+          </div>
+
+          <div class="xml-modal-body">
+            <div id="xml-success-notice" class="xml-success-notice" style="display: none;">
+              <div class="notice-check">✓</div>
+              <div class="notice-text">
+                <strong>Fitxer descarregat correctament!</strong>
+                <p>Recorda guardar la imatge <code id="xml-notice-img-name"></code> a la mateixa carpeta que l'arxiu XML per a la teua entrega.</p>
+              </div>
+            </div>
+
+            <div class="xml-code-container">
+              <div class="xml-code-bar">
+                <span id="xml-modal-filename" class="code-filename">arxiu.xml</span>
+                <button type="button" id="btn-copy-xml-text" class="btn-copy-code">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span id="copy-btn-text">Copiar XML</span>
+                </button>
+              </div>
+              <pre><code id="xml-code-display"></code></pre>
+            </div>
+          </div>
+
+          <div class="xml-modal-footer">
+            <button type="button" id="btn-modal-direct-download" class="btn-creator-download">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Descarregar fitxer XML ara</span>
+            </button>
+            <button type="button" id="btn-modal-close-action" class="btn-modal-cancel">Tancar</button>
           </div>
         </div>
       </div>

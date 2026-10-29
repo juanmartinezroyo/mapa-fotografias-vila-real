@@ -543,4 +543,569 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
+  // Utilitat per escapar caràcters XML
+  function escapeXml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  // ==========================================================================
+  // 13. ESPAI DE CREACIÓ XML PER A L'ALUMNAT
+  // ==========================================================================
+  const btnOpenCreator = document.getElementById('btn-open-creator');
+  const btnCloseCreator = document.getElementById('btn-close-creator');
+  const xmlCreatorSpace = document.getElementById('xml-creator-space');
+
+  // Elements de la burbuja d'instruccions
+  const creatorBubble = document.getElementById('creator-instructions-bubble');
+  const bubbleStepBadge = document.getElementById('bubble-step-badge');
+  const bubbleTitle = document.getElementById('bubble-title');
+  const bubbleDesc = document.getElementById('bubble-desc');
+  const bstep1 = document.getElementById('bstep-1');
+  const bstep2 = document.getElementById('bstep-2');
+  const bstep3 = document.getElementById('bstep-3');
+
+  // Elements d'estat de coordenades
+  const coordsStatusBox = document.getElementById('coords-status-box');
+  const coordsDot = document.getElementById('coords-dot');
+  const coordsStateText = document.getElementById('coords-state-text');
+  const coordsTipText = document.getElementById('coords-tip-text');
+  const coordsChipsRow = document.getElementById('coords-chips-row');
+  const displayLat = document.getElementById('display-lat');
+  const displayLon = document.getElementById('display-lon');
+  const btnRecenterCreatorMap = document.getElementById('btn-recenter-creator-map');
+
+  // Elements del formulari del creador
+  const xmlCreatorForm = document.getElementById('xml-creator-form');
+  const formTitol = document.getElementById('form-titol');
+  const formImageFile = document.getElementById('form-image-file');
+  const formFilename = document.getElementById('form-filename');
+  const filePreviewCard = document.getElementById('file-preview-card');
+  const imagePreviewThumb = document.getElementById('image-preview-thumb');
+  const previewFilename = document.getElementById('preview-filename');
+  const previewFilesize = document.getElementById('preview-filesize');
+  const btnRemoveSelectedFile = document.getElementById('btn-remove-selected-file');
+  const formAny = document.getElementById('form-any');
+  const formExactYear = document.getElementById('form-exact-year');
+  const formCategoria = document.getElementById('form-categoria');
+  const formToponim = document.getElementById('form-toponim');
+  const formCarrer = document.getElementById('form-carrer');
+  const formDescripcio = document.getElementById('form-descripcio');
+  const formTemes = document.getElementById('form-temes');
+  const formPersonatges = document.getElementById('form-personatges');
+  const formAlumneNom = document.getElementById('form-alumne-nom');
+  const formAlumneCurs = document.getElementById('form-alumne-curs');
+  const formDonant = document.getElementById('form-donant');
+  const btnPreviewXmlAction = document.getElementById('btn-preview-xml-action');
+
+  // Elements del modal de previsualització / descàrrega
+  const xmlModal = document.getElementById('xml-modal');
+  const xmlModalBackdrop = document.getElementById('xml-modal-backdrop');
+  const btnCloseXmlModal = document.getElementById('btn-close-xml-modal');
+  const btnModalCloseAction = document.getElementById('btn-modal-close-action');
+  const btnCopyXmlText = document.getElementById('btn-copy-xml-text');
+  const copyBtnText = document.getElementById('copy-btn-text');
+  const xmlCodeDisplay = document.getElementById('xml-code-display');
+  const xmlModalFilename = document.getElementById('xml-modal-filename');
+  const xmlSuccessNotice = document.getElementById('xml-success-notice');
+  const xmlNoticeImgName = document.getElementById('xml-notice-img-name');
+  const btnModalDirectDownload = document.getElementById('btn-modal-direct-download');
+
+  // Estat del Creador XML
+  let creatorMap = null;
+  let creatorMarker = null;
+  let creatorSelectedCoords = null; // { lat, lng }
+  let currentGeneratedXml = '';
+  let currentGeneratedFilename = 'vr_fotografia.xml';
+
+  // 13.1. Inicialització del mapa del Creador XML
+  function initCreatorMap() {
+    if (creatorMap) return;
+
+    creatorMap = L.map('creator-map', {
+      center: vilaRealCoords,
+      zoom: 15,
+      minZoom: 13,
+      maxZoom: 19,
+      maxBounds: mapBounds,
+      maxBoundsViscosity: 0.9,
+      zoomControl: false
+    });
+
+    L.control.zoom({ position: 'bottomright' }).addTo(creatorMap);
+
+    const creatorTileLayers = {
+      osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+      }),
+      satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}', {
+        attribution: 'Tiles &copy; Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN',
+        maxZoom: 18
+      })
+    };
+
+    let creatorCurrentLayer = creatorTileLayers.osm;
+    creatorCurrentLayer.addTo(creatorMap);
+
+    // Gestió del canvi de capes al mapa creador
+    const creatorOsmBtn = document.getElementById('creator-layer-osm');
+    const creatorSatBtn = document.getElementById('creator-layer-satellite');
+
+    if (creatorOsmBtn && creatorSatBtn) {
+      creatorOsmBtn.addEventListener('click', () => {
+        creatorOsmBtn.classList.add('active');
+        creatorSatBtn.classList.remove('active');
+        creatorMap.removeLayer(creatorCurrentLayer);
+        creatorCurrentLayer = creatorTileLayers.osm;
+        creatorCurrentLayer.addTo(creatorMap);
+      });
+
+      creatorSatBtn.addEventListener('click', () => {
+        creatorSatBtn.classList.add('active');
+        creatorOsmBtn.classList.remove('active');
+        creatorMap.removeLayer(creatorCurrentLayer);
+        creatorCurrentLayer = creatorTileLayers.satellite;
+        creatorCurrentLayer.addTo(creatorMap);
+      });
+    }
+
+    // Event de clic sobre el mapa per establir la ubicació
+    creatorMap.on('click', (e) => {
+      setCreatorLocation(e.latlng.lat, e.latlng.lng);
+    });
+  }
+
+  // 13.2. Establir i actualitzar la posició del punt al mapa
+  function setCreatorLocation(lat, lng) {
+    creatorSelectedCoords = {
+      lat: Number(parseFloat(lat).toFixed(5)),
+      lng: Number(parseFloat(lng).toFixed(5))
+    };
+
+    // Crear o moure el marcador
+    if (!creatorMarker) {
+      const pinIcon = L.divIcon({
+        className: 'custom-creator-pin-wrap',
+        html: `
+          <div class="creator-pin-marker">
+            <div class="pin-camera-bubble">
+              <span>📷</span>
+            </div>
+            <div class="pin-pulse-wave"></div>
+          </div>
+        `,
+        iconSize: [44, 48],
+        iconAnchor: [22, 46]
+      });
+
+      creatorMarker = L.marker([lat, lng], {
+        icon: pinIcon,
+        draggable: true,
+        title: 'Arrossega per ajustar la posició'
+      }).addTo(creatorMap);
+
+      creatorMarker.on('dragend', (e) => {
+        const p = e.target.getLatLng();
+        setCreatorLocation(p.lat, p.lng);
+      });
+    } else {
+      creatorMarker.setLatLng([lat, lng]);
+    }
+
+    // Actualitzar caixa d'estat de coordenades
+    displayLat.textContent = creatorSelectedCoords.lat.toFixed(5);
+    displayLon.textContent = creatorSelectedCoords.lng.toFixed(5);
+    coordsChipsRow.style.display = 'flex';
+    coordsStatusBox.classList.add('has-coords');
+    coordsDot.classList.add('active');
+    coordsStateText.textContent = 'Ubicació fixada al mapa';
+    coordsTipText.textContent = 'Arrossega el marcador per afinar la posició';
+
+    // Actualitzar la burbuja d'instruccions interactiva (Pas 2)
+    bubbleStepBadge.textContent = 'Pas 2 de 3';
+    bubbleTitle.textContent = 'Ubicació seleccionada!';
+    bubbleDesc.innerHTML = `Has marcat el punt en <strong>${creatorSelectedCoords.lat.toFixed(5)}, ${creatorSelectedCoords.lng.toFixed(5)}</strong>. Pots moure el marcador blau si vols ajustar-lo. Ara completa la informació de la teua fotografia al formulari de la dreta.`;
+
+    bstep1.classList.add('done');
+    bstep1.classList.remove('active');
+    bstep2.classList.add('active');
+  }
+
+  // Botó de recentrar el mapa en la posició seleccionada
+  if (btnRecenterCreatorMap) {
+    btnRecenterCreatorMap.addEventListener('click', () => {
+      if (creatorSelectedCoords && creatorMap) {
+        creatorMap.flyTo([creatorSelectedCoords.lat, creatorSelectedCoords.lng], Math.max(creatorMap.getZoom(), 17), {
+          duration: 0.6
+        });
+      }
+    });
+  }
+
+  // 13.3. Obrir i Tancar l'Espai Creador XML
+  function openXmlCreator() {
+    xmlCreatorSpace.style.display = 'flex';
+    xmlCreatorSpace.setAttribute('aria-hidden', 'false');
+
+    initCreatorMap();
+
+    // Forçar recalcul de mides per a Leaflet
+    setTimeout(() => {
+      if (creatorMap) {
+        creatorMap.invalidateSize();
+        if (creatorSelectedCoords) {
+          creatorMap.setView([creatorSelectedCoords.lat, creatorSelectedCoords.lng], creatorMap.getZoom());
+        }
+      }
+    }, 150);
+  }
+
+  function closeXmlCreator() {
+    xmlCreatorSpace.style.display = 'none';
+    xmlCreatorSpace.setAttribute('aria-hidden', 'true');
+
+    // Forçar el mapa principal a recalcular mides
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+  }
+
+  if (btnOpenCreator) {
+    btnOpenCreator.addEventListener('click', openXmlCreator);
+  }
+
+  if (btnCloseCreator) {
+    btnCloseCreator.addEventListener('click', closeXmlCreator);
+  }
+
+  // 13.4. Gestió del fitxer d'imatge i vista prèvia
+  if (formImageFile) {
+    formImageFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Autocompletar nom de l'arxiu d'imatge
+      formFilename.value = file.name;
+
+      // Mostrar targeta de vista prèvia
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        imagePreviewThumb.src = event.target.result;
+        previewFilename.textContent = file.name;
+        previewFilesize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+        filePreviewCard.style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+
+      // Si el títol està buit, suggerir un títol bonic basat en el nom
+      if (!formTitol.value.trim()) {
+        const cleanName = file.name
+          .replace(/\.[^/.]+$/, '')
+          .replace(/^vr_\d{4}_/, '')
+          .replace(/[_-]+/g, ' ')
+          .trim();
+        if (cleanName) {
+          formTitol.value = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+        }
+      }
+    });
+  }
+
+  if (btnRemoveSelectedFile) {
+    btnRemoveSelectedFile.addEventListener('click', () => {
+      formImageFile.value = '';
+      filePreviewCard.style.display = 'none';
+      imagePreviewThumb.src = '';
+    });
+  }
+
+  // Suggeriment automàtic de nom de fitxer en escriure any i títol
+  function updateSuggestedFilename() {
+    if (formFilename.dataset.manualEdit === 'true') return;
+    const year = formAny.value.trim();
+    const titol = formTitol.value.trim();
+    if (year && titol && !formImageFile.files[0]) {
+      const slug = slugify(titol);
+      formFilename.value = `vr_${year}_${slug}.jpg`;
+    }
+  }
+
+  formTitol.addEventListener('input', updateSuggestedFilename);
+  formAny.addEventListener('input', updateSuggestedFilename);
+  formFilename.addEventListener('input', () => {
+    formFilename.dataset.manualEdit = 'true';
+  });
+
+  // Funció auxiliar per crear un slug net
+  function slugify(text) {
+    return text
+      .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Elimina accents
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 30);
+  }
+
+  // 13.5. Construcció del contingut XML segons esquema.xsd
+  function generateXmlData() {
+    const titol = formTitol.value.trim();
+    let filename = formFilename.value.trim();
+    const anyVal = parseInt(formAny.value.trim(), 10);
+    const isExact = formExactYear.checked;
+    const categoria = formCategoria.value;
+    const toponim = formToponim.value.trim();
+    const carrer = formCarrer.value.trim();
+    const descripcio = formDescripcio.value.trim();
+    const temesRaw = formTemes.value.trim();
+    const personatgesRaw = formPersonatges.value.trim();
+    const alumneNom = formAlumneNom.value.trim();
+    const alumneCurs = formAlumneCurs.value.trim();
+    const donant = formDonant.value.trim();
+
+    // Validacions bàsiques
+    if (!creatorSelectedCoords) {
+      alert('⚠️ Si us plau, fes clic primer sobre el mapa de Vila-real per seleccionar la ubicació on es va prendre la fotografia.');
+      coordsStatusBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return null;
+    }
+
+    if (!titol) {
+      alert('⚠️ Cal introduir el títol de la fotografia.');
+      formTitol.focus();
+      return null;
+    }
+
+    if (!filename) {
+      alert("⚠️ Cal indicar el nom de l'arxiu d'imatge (per exemple: foto.jpg).");
+      formFilename.focus();
+      return null;
+    }
+
+    // Comprovar extensió d'imatge (.jpg, .jpeg, .png)
+    if (!filename.match(/\.(jpg|jpeg|png)$/i)) {
+      alert("⚠️ L'arxiu d'imatge ha de tenir una extensió vàlida: .jpg, .jpeg o .png");
+      formFilename.focus();
+      return null;
+    }
+
+    if (isNaN(anyVal) || anyVal < 1840 || anyVal > 2025) {
+      alert("⚠️ L'any de la fotografia ha d'estar comprès entre 1840 i 2025.");
+      formAny.focus();
+      return null;
+    }
+
+    if (!categoria) {
+      alert('⚠️ Selecciona una categoria per a la fotografia.');
+      formCategoria.focus();
+      return null;
+    }
+
+    if (!descripcio) {
+      alert('⚠️ Cal introduir una descripció o context històric de la imatge.');
+      formDescripcio.focus();
+      return null;
+    }
+
+    if (!alumneNom) {
+      alert("⚠️ Introdueix el teu nom i cognoms com a autor/a de l'entrega.");
+      formAlumneNom.focus();
+      return null;
+    }
+
+    if (!alumneCurs) {
+      alert('⚠️ Introdueix el teu curs o grup (ex: 4t ESO B).');
+      formAlumneCurs.focus();
+      return null;
+    }
+
+    // Generació d'ID únic recomanat (ex: vr_1925_placa_major_01)
+    const slugName = slugify(toponim || titol || 'foto');
+    const photoId = `vr_${anyVal}_${slugName}_01`;
+    currentGeneratedFilename = `vr_${anyVal}_${slugName}.xml`;
+
+    // Processar etiquetes de temes
+    let temesBlock = '';
+    if (temesRaw) {
+      const temesList = temesRaw.split(',').map(t => t.trim()).filter(Boolean);
+      if (temesList.length > 0) {
+        temesBlock = '  <temes>\n' +
+          temesList.map(t => `    <tema>${escapeXml(t)}</tema>`).join('\n') +
+          '\n  </temes>\n';
+      }
+    }
+
+    // Processar etiquetes de personatges
+    let personatgesBlock = '';
+    if (personatgesRaw) {
+      const persList = personatgesRaw.split(',').map(p => p.trim()).filter(Boolean);
+      if (persList.length > 0) {
+        personatgesBlock = '  <personatges>\n' +
+          persList.map(p => `    <personatge>${escapeXml(p)}</personatge>`).join('\n') +
+          '\n  </personatges>\n';
+      }
+    }
+
+    // Processar camps opcionals
+    const toponimXml = toponim ? `    <toponim_historic>${escapeXml(toponim)}</toponim_historic>\n` : '';
+    const carrerXml = carrer ? `    <carrer_actual>${escapeXml(carrer)}</carrer_actual>\n` : '';
+    const donantXml = donant ? `  <donant>${escapeXml(donant)}</donant>\n` : '';
+
+    // Generació XML complet i indentat segons esquema.xsd
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MEMÒRIA VISUAL DE VILA-REAL
+  Fitxer de dades catalogràfiques generat per a l'entrega de l'alumnat
+-->
+<fotografia>
+
+  <!-- Identificador únic de la fotografia -->
+  <id>${escapeXml(photoId)}</id>
+
+  <!-- Títol descriptiu -->
+  <titol>${escapeXml(titol)}</titol>
+
+  <!-- Nom de l'arxiu d'imatge -->
+  <arxiu_imatge>${escapeXml(filename)}</arxiu_imatge>
+
+  <!-- Any i certesa -->
+  <any exacte="${isExact}">${anyVal}</any>
+
+  <!-- Categoria temàtica oficial -->
+  <categoria>${escapeXml(categoria)}</categoria>
+
+  <!-- Coordenades geogràfiques i toponímia -->
+  <geolocalitzacio>
+    <latitud>${creatorSelectedCoords.lat.toFixed(5)}</latitud>
+    <longitud>${creatorSelectedCoords.lng.toFixed(5)}</longitud>
+${toponimXml}${carrerXml}  </geolocalitzacio>
+
+  <!-- Context històric -->
+  <descripcio>${escapeXml(descripcio)}</descripcio>
+
+${temesBlock}${personatgesBlock}  <!-- Dades de l'alumne/a -->
+  <alumne>
+    <nom>${escapeXml(alumneNom)}</nom>
+    <curs>${escapeXml(alumneCurs)}</curs>
+  </alumne>
+
+${donantXml}</fotografia>
+`;
+
+    currentGeneratedXml = xml;
+    return {
+      xml: xml,
+      filename: currentGeneratedFilename,
+      imgName: filename
+    };
+  }
+
+  // 13.6. Descàrrega directa de fitxer
+  function downloadXmlFile(filename, content) {
+    const blob = new Blob([content], { type: 'application/xml;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  // 13.7. Enviament del formulari -> Descarregar XML
+  xmlCreatorForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const data = generateXmlData();
+    if (!data) return;
+
+    // Descarregar fitxer al navegador de l'alumne
+    downloadXmlFile(data.filename, data.xml);
+
+    // Actualitzar la burbuja d'instruccions interactiva (Pas 3 - Èxit)
+    bubbleStepBadge.textContent = 'Pas 3 de 3';
+    bubbleTitle.textContent = 'Fitxer XML descarregat!';
+    bubbleDesc.innerHTML = `S'ha descarregat <strong>${data.filename}</strong> al teu ordinador. Recorda guardar també la teua imatge (<strong>${escapeHtml(data.imgName)}</strong>) a la mateixa carpeta per a l'entrega escolar!`;
+
+    bstep2.classList.add('done');
+    bstep2.classList.remove('active');
+    bstep3.classList.add('active', 'done');
+
+    // Obrir modal amb missatge d'èxit i previsualització del codi
+    openXmlModal(data.xml, data.filename, data.imgName, true);
+  });
+
+  // 13.8. Previsualització XML
+  btnPreviewXmlAction.addEventListener('click', () => {
+    const data = generateXmlData();
+    if (!data) return;
+    openXmlModal(data.xml, data.filename, data.imgName, false);
+  });
+
+  function openXmlModal(xmlContent, filename, imgName, isDownloaded) {
+    xmlCodeDisplay.textContent = xmlContent;
+    xmlModalFilename.textContent = filename;
+
+    if (isDownloaded) {
+      xmlSuccessNotice.style.display = 'flex';
+      xmlNoticeImgName.textContent = imgName;
+    } else {
+      xmlSuccessNotice.style.display = 'none';
+    }
+
+    xmlModal.classList.add('active');
+    xmlModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeXmlModal() {
+    xmlModal.classList.remove('active');
+    xmlModal.setAttribute('aria-hidden', 'true');
+  }
+
+  btnCloseXmlModal.addEventListener('click', closeXmlModal);
+  btnModalCloseAction.addEventListener('click', closeXmlModal);
+  xmlModalBackdrop.addEventListener('click', closeXmlModal);
+
+  // Botó de descàrrega directa des de dins del modal
+  btnModalDirectDownload.addEventListener('click', () => {
+    if (currentGeneratedXml) {
+      downloadXmlFile(currentGeneratedFilename, currentGeneratedXml);
+      xmlSuccessNotice.style.display = 'flex';
+    }
+  });
+
+  // Copiar codi XML al portapapers
+  btnCopyXmlText.addEventListener('click', () => {
+    if (!currentGeneratedXml) return;
+    navigator.clipboard.writeText(currentGeneratedXml).then(() => {
+      copyBtnText.textContent = '✓ Copiat!';
+      setTimeout(() => {
+        copyBtnText.textContent = 'Copiar XML';
+      }, 2000);
+    }).catch(() => {
+      copyBtnText.textContent = 'Error en copiar';
+    });
+  });
+
+  // Tancar espai creador o modal amb ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (xmlModal.classList.contains('active')) {
+        closeXmlModal();
+      } else if (xmlCreatorSpace.style.display === 'flex') {
+        closeXmlCreator();
+      }
+    }
+  });
+
 });
+
