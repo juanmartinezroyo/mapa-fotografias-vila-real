@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fotografia>
+  <id>vr_1924_placa_vila_01</id>
+  <titol>Plaça de la Vila i Porxis</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="true">1924</any>
+  <categoria>arquitectura</categoria>
+  <geolocalitzacio>
+    <latitud>39.93700</latitud>
+    <longitud>-0.10085</longitud>
+    <toponim_historic>Plaça de la Vila (Els Porxis)</toponim_historic>
+    <carrer_actual>Plaça Major / Plaça de la Vila</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Vista panoràmica de la Plaça de la Vila amb els seus històrics porxis medievals. Espai neuràlgic de trobada, mercat setmanal i celebracions cíviques durant les primeres dècades del segle XX.</descripcio>
+  <temes>
+    <tema>plaça</tema>
+    <tema>centre històric</tema>
+    <tema>ajuntament</tema>
+    <tema>mercat</tema>
+    <tema>porxis</tema>
+  </temes>
+  <personatges>
+    <personatge>Veïns i comerciants de la Vila</personatge>
+  </personatges>
+  <alumne>
+    <nom>Sara García Cantavella</nom>
+    <curs>4t ESO - Projecte Patrimoni</curs>
+  </alumne>
+  <donant>Arxiu Municipal de Vila-real</donant>
+</fotografia>

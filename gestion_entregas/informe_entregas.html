@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informe de Validació d'Entregas | Memòria Visual de Vila-real</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f3ee;
+      color: #1f2522;
+      padding: 30px;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+      color: #873217;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: #5e6863;
+      margin-bottom: 24px;
+    }
+    .stats {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px 22px;
+      border: 1px solid rgba(0,0,0,0.08);
+      min-width: 140px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: #5e6863;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .n-total { color: #1f2522; }
+    .n-ok { color: #267843; }
+    .n-err { color: #c92a2a; }
+    .n-warn { color: #b88628; }
+
+    .entry {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .entry-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+    .badge-ok {
+      background: #e6f7ed;
+      color: #267843;
+    }
+    .badge-err {
+      background: #fce4e4;
+      color: #c92a2a;
+    }
+    .badge-warn {
+      background: #fef7e9;
+      color: #b88628;
+    }
+    .entry-meta {
+      font-size: 0.82rem;
+      color: #5e6863;
+      margin-bottom: 8px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      padding: 4px 0 4px 22px;
+      position: relative;
+      font-size: 0.88rem;
+    }
+    ul li::before {
+      position: absolute;
+      left: 0;
+      top: 5px;
+    }
+    li.err::before { content: "❌"; }
+    li.warn::before { content: "⚠️"; }
+    li.ok-item::before { content: "✅"; }
+  </style>
+</head>
+<body>
+  <h1>📋 Informe de Validació d'Entregas</h1>
+  <p class="subtitle">Memòria Visual de Vila-real — Generat el 29/10/2026 a les 19:39</p>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="number n-total">2</div>
+      <div class="label">Entregas Totals</div>
+    </div>
+    <div class="stat-card">
+      <div class="number n-ok">1</div>
+      <div class="label">Vàlides ✅</div>
+    </div>
+    <div class="stat-card">
+      <div class="number n-err">1</div>
+      <div class="label">Amb Errors ❌</div>
+    </div>
+    <div class="stat-card">
+      <div class="number n-warn">1</div>
+      <div class="label">Amb Avisos ⚠️</div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">📁 exemple_aitana_bellmunt / vr_1938_panderola.xml</span>
+      <span class="badge badge-err">ERRORS</span>
+    </div>
+    <div class="entry-meta">Alumne/a: <strong>Aitana Bellmunt Llorens</strong> · Curs: 4t ESO C · ID: <code>vr_1938_panderola_02</code></div>
+    <ul>
+      <li class="err">L'arxiu d'imatge 'panderola_1938.jpg' no existeix dins la carpeta 'exemple_aitana_bellmunt/'.</li>
+      <li class="err">La categoria 'transport' no és vàlida. Categories admeses: arquitectura, infraestructura, vida quotidiana, esdeveniments, personatges.</li>
+      <li class="err">La latitud '39,93850' utilitza coma en comptes de punt decimal.</li>
+      <li class="err">La longitud '-0,09870' utilitza coma en comptes de punt decimal.</li>
+      <li class="warn">El camp <descripcio> està buit. Seria recomanable afegir context històric.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">📁 exemple_marc_perez / vr_1924_placa_vila.xml</span>
+      <span class="badge badge-ok">VÀLID</span>
+    </div>
+    <div class="entry-meta">Alumne/a: <strong>Sara García Cantavella</strong> · Curs: 4t ESO - Projecte Patrimoni · ID: <code>vr_1924_placa_vila_01</code></div>
+    <ul>
+      <li class="ok-item">Tots els camps correctes. Llest per importar.</li>
+    </ul>
+  </div>
+
+  <hr style="margin: 28px 0; border: none; border-top: 1px solid #ddd;">
+  <p style="font-size: 0.82rem; color: #888;">
+    Data exportada a: <code>C:\Users\Usuario\.gemini\antigravity-ide\scratch\mapa-fotografias-vila-real-main\mapa-fotografias-vila-real-main\data.json</code><br>
+    Només les entregas vàlides s'han incorporat al dataset.
+  </p>
+</body>
+</html>

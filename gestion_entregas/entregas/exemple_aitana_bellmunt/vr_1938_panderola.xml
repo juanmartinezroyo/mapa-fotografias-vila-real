@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE AMB ERRORS INTENCIONATS PER A PROVES DE VALIDACIÓ -->
+<fotografia>
+  <id>vr_1938_panderola_02</id>
+  <titol>La Panderola a l'Estació</titol>
+  <!-- ERROR 1: El fitxer d'imatge NO existeix a la carpeta -->
+  <arxiu_imatge>panderola_1938.jpg</arxiu_imatge>
+  <any exacte="true">1938</any>
+  <!-- ERROR 2: Categoria incorrecta (no és una de les admeses) -->
+  <categoria>transport</categoria>
+  <geolocalitzacio>
+    <!-- ERROR 3: Coordenades amb COMA en comptes de PUNT -->
+    <latitud>39,93850</latitud>
+    <longitud>-0,09870</longitud>
+    <toponim_historic>Antiga Estació del Trenet</toponim_historic>
+    <carrer_actual>Avinguda de la Murà</carrer_actual>
+  </geolocalitzacio>
+  <!-- ERROR 4: Descripció buida -->
+  <descripcio></descripcio>
+  <temes>
+    <tema>la panderola</tema>
+    <tema>trenet</tema>
+  </temes>
+  <alumne>
+    <nom>Aitana Bellmunt Llorens</nom>
+    <curs>4t ESO C</curs>
+  </alumne>
+  <donant>Arxiu de la memòria oral de la Plana</donant>
+</fotografia>

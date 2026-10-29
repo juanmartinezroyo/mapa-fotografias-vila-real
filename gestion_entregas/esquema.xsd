@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Esquema XSD per a la validació d'entregas de fotografies
+  Memòria Visual de Vila-real
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Element arrel -->
+  <xs:element name="fotografia">
+    <xs:complexType>
+      <xs:all>
+        <!-- Identificador únic: obligatori, text no buit -->
+        <xs:element name="id" type="xs:string" />
+
+        <!-- Títol: obligatori -->
+        <xs:element name="titol" type="xs:string" />
+
+        <!-- Arxiu d'imatge: obligatori, ha de ser .jpg, .jpeg o .png -->
+        <xs:element name="arxiu_imatge">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:pattern value=".+\.(jpg|jpeg|png|JPG|JPEG|PNG)" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <!-- Any: obligatori, entre 1840 i 2025, amb atribut 'exacte' -->
+        <xs:element name="any">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="anyRangeType">
+                <xs:attribute name="exacte" type="xs:boolean" use="optional" default="true" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- Categoria: obligatori, restringida a valors admesos -->
+        <xs:element name="categoria">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="arquitectura" />
+              <xs:enumeration value="infraestructura" />
+              <xs:enumeration value="vida quotidiana" />
+              <xs:enumeration value="esdeveniments" />
+              <xs:enumeration value="personatges" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+
+        <!-- Geolocalització: obligatori (latitud i longitud) -->
+        <xs:element name="geolocalitzacio">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="latitud" type="xs:decimal" />
+              <xs:element name="longitud" type="xs:decimal" />
+              <xs:element name="toponim_historic" type="xs:string" minOccurs="0" />
+              <xs:element name="carrer_actual" type="xs:string" minOccurs="0" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- Descripció: obligatori -->
+        <xs:element name="descripcio" type="xs:string" />
+
+        <!-- Temes: opcional, llista de temes -->
+        <xs:element name="temes" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tema" type="xs:string" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- Personatges: opcional, llista de persones -->
+        <xs:element name="personatges" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="personatge" type="xs:string" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- Dades de l'alumne/a: obligatori -->
+        <xs:element name="alumne">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="nom" type="xs:string" />
+              <xs:element name="curs" type="xs:string" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- Donant / Procedència: opcional -->
+        <xs:element name="donant" type="xs:string" minOccurs="0" />
+
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Tipus personalitzat per a l'any (1840 - 2025) -->
+  <xs:simpleType name="anyRangeType">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1840" />
+      <xs:maxInclusive value="2025" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

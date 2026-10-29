@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  MEMÒRIA VISUAL DE VILA-REAL
+  Plantilla XML per a l'entrega de fotografies digitalitzades
+  ============================================================================
+
+  INSTRUCCIONS PER A L'ALUMNAT:
+  
+  1. Copia aquest arxiu i reanomena'l amb el format:
+       vr_ANY_nom_lloc.xml
+     Exemple: vr_1925_placa_major.xml
+
+  2. Omple tots els camps marcats com OBLIGATORI.
+     Els camps marcats com OPCIONAL es poden deixar buits o eliminar.
+
+  3. Posa l'arxiu d'imatge (JPG, JPEG o PNG) a la mateixa carpeta
+     que aquest fitxer XML.
+
+  4. Per trobar les coordenades:
+     - Ves a Google Maps (maps.google.com)
+     - Fes clic amb el botó dret sobre el punt exacte de la foto
+     - Copia la latitud i la longitud (amb PUNT decimal, no coma!)
+     - Exemple correcte: 39.93721   Exemple INCORRECTE: 39,93721
+
+  5. Les categories admeses són:
+     - arquitectura
+     - infraestructura
+     - vida quotidiana
+     - esdeveniments
+     - personatges
+
+  6. Entrega la carpeta amb l'arxiu XML i la imatge al professor/a.
+  ============================================================================
+-->
+
+<fotografia>
+
+  <!-- ======== IDENTIFICADOR ÚNIC ======== -->
+  <!-- OBLIGATORI: Format recomanat: vr_ANY_lloc_numero -->
+  <id>vr_1925_placa_major_01</id>
+
+  <!-- ======== TÍTOL DE LA FOTOGRAFIA ======== -->
+  <!-- OBLIGATORI: Títol descriptiu, clar i breu -->
+  <titol>Vista de la Plaça Major amb els Porxis</titol>
+
+  <!-- ======== ARXIU D'IMATGE ======== -->
+  <!-- OBLIGATORI: Nom exacte del fitxer (ha d'estar a la mateixa carpeta) -->
+  <arxiu_imatge>vr_1925_placa_major_01.jpg</arxiu_imatge>
+
+  <!-- ======== ANY DE LA FOTOGRAFIA ======== -->
+  <!-- OBLIGATORI: Any numèric (ex: 1925) -->
+  <!-- L'atribut "exacte" indica si l'any és segur (true) o aproximat (false) -->
+  <any exacte="true">1925</any>
+
+  <!-- ======== CATEGORIA ======== -->
+  <!-- OBLIGATORI: Una de les categories admeses (veure instruccions dalt) -->
+  <categoria>arquitectura</categoria>
+
+  <!-- ======== GEOLOCALITZACIÓ ======== -->
+  <!-- OBLIGATORI: Coordenades decimals amb PUNT (no coma!) -->
+  <geolocalitzacio>
+    <latitud>39.93700</latitud>
+    <longitud>-0.10085</longitud>
+    <!-- OPCIONAL: Nom del lloc i carrer actual -->
+    <toponim_historic>Plaça de la Vila</toponim_historic>
+    <carrer_actual>Plaça Major / Plaça de la Vila</carrer_actual>
+  </geolocalitzacio>
+
+  <!-- ======== DESCRIPCIÓ ======== -->
+  <!-- OBLIGATORI: Explica el context històric de la imatge -->
+  <descripcio>Vista panoràmica de la Plaça de la Vila amb els seus porxis medievals i veïns passejant un diumenge de primavera. S'observa l'Ajuntament al fons amb la façana anterior a la reforma de 1940.</descripcio>
+
+  <!-- ======== TEMES / ETIQUETES ======== -->
+  <!-- OPCIONAL: Paraules clau relacionades amb la fotografia -->
+  <temes>
+    <tema>plaça</tema>
+    <tema>centre històric</tema>
+    <tema>porxis</tema>
+    <tema>ajuntament</tema>
+  </temes>
+
+  <!-- ======== PERSONATGES ======== -->
+  <!-- OPCIONAL: Persones identificades a la fotografia -->
+  <personatges>
+    <personatge>Veïns del centre històric</personatge>
+  </personatges>
+
+  <!-- ======== DADES DE L'ALUMNE/A ======== -->
+  <!-- OBLIGATORI: Informació de qui aporta la fotografia -->
+  <alumne>
+    <nom>Nom i Cognoms de l'Alumne/a</nom>
+    <curs>4t ESO B</curs>
+  </alumne>
+
+  <!-- ======== PROCEDÈNCIA / DONACIÓ ======== -->
+  <!-- OPCIONAL: D'on prové la fotografia original -->
+  <donant>Arxiu familiar de la família García</donant>
+
+</fotografia>
