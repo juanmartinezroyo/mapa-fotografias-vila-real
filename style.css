@@ -1,189 +1,1131 @@
+/* ==========================================================================
+   MEMÒRIA VISUAL DE VILA-REAL - DESIGN SYSTEM & STYLESHEET
+   ========================================================================== */
 
-* {
+:root {
+  /* Paleta cromàtica editorial & patrimonial */
+  --color-primary: #a74526;        /* Terracota valencià */
+  --color-primary-dark: #873217;
+  --color-primary-light: #fbeee8;
+  --color-accent-gold: #b88628;    /* Ocre daurat d'arxiu */
+  --color-accent-gold-light: #fef7e9;
+  
+  --color-bg-base: #f6f5f0;        /* To pergamí suau */
+  --color-bg-surface: rgba(255, 255, 255, 0.94);
+  --color-bg-glass: rgba(255, 255, 255, 0.82);
+  --color-border-glass: rgba(200, 192, 178, 0.45);
+  
+  --color-text-main: #1f2522;
+  --color-text-muted: #5e6863;
+  --color-text-light: #8a948e;
+
+  /* Tipografies */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Ombres i elevació */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(35, 25, 15, 0.09);
+  --shadow-lg: 0 16px 36px rgba(25, 20, 15, 0.14);
+  --shadow-popup: 0 20px 40px rgba(0, 0, 0, 0.22);
+
+  /* Transicions suaus */
+  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset bàsic */
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html, body {
+  width: 100%;
   height: 100%;
-  font-family: Arial, sans-serif;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-base);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Contenedor principal */
-#container {
+/* Contenidor de l'app */
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  position: relative;
 }
 
-/* Encabezado modificado */
-header {
-  background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ==========================================================================
+   HEADER SUPERIOR FLOTANT
+   ========================================================================== */
+#main-header {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-glass);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-gold));
   color: #fff;
-  padding: 20px 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(167, 69, 38, 0.35);
+  flex-shrink: 0;
+}
+.brand-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
-/* Estilo para el título dentro del header */
-header h1 {
-  font-family: 'Montserrat', sans-serif;  /* Asegúrate de importar la fuente en el HTML o mediante @import */
-  font-size: 2.5rem;
-  margin: 0;
+.brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.01em;
 }
 
-/* filtro */
-#categoria-filtro {
-  width: 90%;
-  margin: 15px auto;
-  text-align: center;
+.brand-subtitle {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Indicador de recompte de fotografies */
+.stats-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Commutador de vistes [Mapa] / [Galeria] */
+.view-toggle {
+  display: flex;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 3px;
+  border-radius: 12px;
+  gap: 2px;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggle-btn:hover {
+  color: var(--color-text-main);
+}
+
+.toggle-btn.active {
+  background: #fff;
+  color: var(--color-primary-dark);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   BARRA DE FILTRES FLOTANT
+   ========================================================================== */
+#filter-bar {
+  position: absolute;
+  top: 76px;
+  left: 16px;
+  right: 16px;
+  z-index: 990;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-glass);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  pointer-events: auto;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Caixa de cerca */
+.search-group {
+  flex: 1 1 260px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 32px 8px 34px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--color-text-main);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-box input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(167, 69, 38, 0.15);
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--color-text-light);
+  pointer-events: none;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Selector de categories */
+.filter-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 #categoriaSelect {
-  padding: 6px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #333;
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--color-text-main);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
 }
 
-
-/* Mapa que ocupa el espacio restante */
-#map {
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
+#categoriaSelect:focus {
+  border-color: var(--color-primary);
 }
 
-/* Opcional: Ajustar el tamaño de los 'handles' (las bolitas) */
-.noUi-horizontal .noUi-handle {
-  height: 24px;
-  width: 24px;
-}
-
-/* Opcional: Ajustar el grosor de la barra */
-.noUi-horizontal .noUi-base {
-  height: 10px;
-}
-/*SLIDER*/
-#slider-range {
-  width: 250px;
-  margin: 10px auto; 
-}
-
-
-/* Panel lateral */
-#sidepanel {
-  position: absolute;
-  top: 144px;
-  left: -320px; /* Oculto inicialmente a la izquierda */
-  width: 320px;
-  max-height:100%;
-  height:calc(100%-144px);
-  background-color: #222;
-  color: #fff;
-  transition: left 0.5s ease-in-out;
-  padding: 20px;
-  overflow-y: auto;
-  z-index: 1000;
-  
-  display:flex;
+/* Rellotge cronològic / Slider (Línia de temps 1850 - 2000) */
+.timeline-group {
+  display: flex;
   flex-direction: column;
+  gap: 3px;
+  min-width: 240px;
+  padding: 0 4px;
 }
 
-#sidepanel.open {
-  left: 0; /* Al añadir la clase "open" lo movemos a la vista */
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
 }
 
-
-.img-container {
-  margin-bottom: 15px;
-  margin-top: 30px;
+.years-range strong {
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
-#close-panel {
-  margin-top: auto;
-  bottom: 20px;
-  right: 20px;
-  background: #ff4d4d;
-  border: none;
-  color: #fff;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  border-radius: 5px;
-  
-  position:static;
-  transform: none;
-} 
-#close-panel:hover {
-  background: #ff1a1a;
-}
-
-/* Contenedor para la imagen y el botón lupa */
-.img-container {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 15px;
-  margin-top:30px
-}
-.img-container img {
+#slider-range {
   width: 100%;
-  border-radius: 5px;
-}
-.zoom-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: #fff;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-.zoom-button:hover {
-  background: rgba(0, 0, 0, 0.7);
+  height: 7px;
+  margin: 7px 0 3px 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #e5e0d4;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-/* Modal */
-.modal {
+.noUi-connect {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-gold));
+  border-radius: 4px;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 18px;
+  height: 18px;
+  right: -9px;
+  top: -6px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3.5px solid var(--color-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  outline: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.noUi-handle::before, .noUi-handle::after {
   display: none;
-  position: fixed;
-  top: 0; 
-  left: 0;
+}
+
+.noUi-handle:hover {
+  transform: scale(1.15);
+  border-color: var(--color-primary-dark);
+}
+
+.noUi-handle:active {
+  cursor: grabbing;
+  transform: scale(1.2);
+}
+
+/* Marcadors temporals de segle i dècades */
+.timeline-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--color-text-light);
+  font-weight: 600;
+  margin-top: 2px;
+  padding: 0 2px;
+  user-select: none;
+}
+
+/* Botó reset */
+.reset-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.reset-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* ==========================================================================
+   ÀREA PRINCIPAL I VISTES (MAPA & GALERIA)
+   ========================================================================== */
+#main-content {
+  position: relative;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  flex: 1;
+}
+
+.view-panel {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.view-panel.active {
+  display: block;
+}
+
+/* MAPA */
+#map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Selector d'estils de capa del mapa */
+.map-layer-selector {
+  position: absolute;
+  bottom: 24px;
+  left: 20px;
+  z-index: 990;
+  display: flex;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border-glass);
+  padding: 4px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  gap: 4px;
+}
+
+.layer-pill {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.layer-pill:hover {
+  color: var(--color-text-main);
+}
+
+.layer-pill.active {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(167, 69, 38, 0.35);
+}
+
+/* ==========================================================================
+   MARCADORS PERSONALITZATS DE LEAFLET & CLUSTERS
+   ========================================================================== */
+/* Pin fotogràfic interactiu */
+.custom-photo-pin {
+  background: transparent;
+  border: none;
+}
+
+.pin-bubble {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  background-color: #222;
+}
+
+.pin-bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) sepia(0.2);
+  transition: filter 0.2s ease;
+}
+
+.pin-year-tag {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  border: 1.5px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+.custom-photo-pin:hover .pin-bubble {
+  transform: scale(1.22);
+  border-color: var(--color-accent-gold);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+
+.custom-photo-pin:hover .pin-bubble img {
+  filter: contrast(1.1) sepia(0);
+}
+
+/* Clusters estilitzats de MarkerCluster */
+.marker-cluster-custom {
+  background: rgba(167, 69, 38, 0.25);
+  border-radius: 50%;
+  padding: 5px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
 }
-.modal-content {
+
+.cluster-inner {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-gold));
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(167, 69, 38, 0.45);
+}
+
+/* ==========================================================================
+   VISTA GALERIA (GRID DE FITXES)
+   ========================================================================== */
+#gallery-view {
+  overflow-y: auto;
+  background: var(--color-bg-base);
+  padding: 146px 24px 40px 24px; /* Espai per als controls flotants */
+}
+
+.gallery-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+.gallery-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(167, 69, 38, 0.2);
+}
+
+.card-img-wrapper {
   position: relative;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 90%;
-  max-height: 90%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  text-align: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #2b2b2b;
 }
-.modal-close {
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-card:hover .card-img-wrapper img {
+  transform: scale(1.05);
+}
+
+.card-year-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(20, 24, 22, 0.85);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+.card-cat-badge {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 30px;
-  color: #000
-  cursor: pointer;
-  z-index: 9999
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: capitalize;
 }
+
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.card-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-student {
+  font-size: 0.74rem;
+  color: var(--color-text-light);
+}
+
+.btn-card-view {
+  background: transparent;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.btn-card-view:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Estat buit de la galeria */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--color-text-muted);
+}
+.empty-state svg {
+  margin-bottom: 16px;
+  stroke: var(--color-text-light);
+}
+.empty-state h3 {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
+/* ==========================================================================
+   PANELL LATERAL (FITXA DE LA FOTOGRAFIA)
+   ========================================================================== */
+.sidepanel {
+  position: absolute;
+  top: 0;
+  right: -480px;
+  width: 440px;
+  max-width: 90vw;
+  height: 100%;
+  background: var(--color-bg-surface);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid var(--color-border-glass);
+  box-shadow: var(--shadow-popup);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.sidepanel.open {
+  right: 0;
+}
+
+.sidepanel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.sidepanel-badge-row {
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.badge-year {
+  background: #1f2522;
+  color: #fff;
+}
+
+.badge-category {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  text-transform: capitalize;
+}
+
+.btn-close {
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--color-text-main);
+}
+
+.sidepanel-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Hero Image amb botó ampliar */
+.sidepanel-hero-image {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background-color: #222;
+  aspect-ratio: 4 / 3;
+}
+
+.sidepanel-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.floating-zoom-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(18, 22, 20, 0.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.floating-zoom-btn:hover {
+  background: rgba(167, 69, 38, 0.95);
+  transform: scale(1.05);
+}
+
+.sidepanel-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text-main);
+}
+
+/* Secció d'Ubicació */
+.location-box {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.meta-item svg {
+  color: var(--color-primary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.meta-text strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+}
+
+.meta-text .sub-text {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.btn-streetview {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.btn-streetview:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+/* Seccions generals de la fitxa */
+.meta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.description-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Etiquetes i Personatges (Tags Clusters) */
+.tags-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-main);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tag-pill:hover {
+  background: var(--color-accent-gold-light);
+  color: var(--color-accent-gold);
+}
+
+.people-pill {
+  background: #f1f6f3;
+  color: #275239;
+  border: 1px solid rgba(39, 82, 57, 0.15);
+}
+
+.people-pill:hover {
+  background: #e2ede5;
+}
+
+/* Targeta Educativa i Donació */
+.education-card {
+  background: var(--color-primary-light);
+  border: 1px dashed rgba(167, 69, 38, 0.35);
+  border-radius: 10px;
+  padding: 14px;
+  gap: 8px;
+}
+
+.edu-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.edu-label {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.education-card strong, .education-card span:last-child {
+  color: var(--color-text-main);
+}
+
+/* ==========================================================================
+   MODAL VISOR INMERSIV A PANTALLA COMPLETA
+   ========================================================================== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 16, 14, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.modal-wrapper {
+  position: relative;
+  z-index: 2010;
+  max-width: 92vw;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #modal-image {
-  max-width: 100%;
+  max-width: 90vw;
   max-height: 80vh;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+
+.modal-caption {
+  margin-top: 14px;
+  text-align: center;
+  color: #fff;
+}
+
+#modal-caption-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+#modal-caption-year {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ==========================================================================
+   ADAPTATIVITAT RESPONSIVE (MÒBIL I TABLET)
+   ========================================================================== */
+@media (max-width: 960px) {
+  #main-header {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+  }
+  
+  #filter-bar {
+    top: 110px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .timeline-group {
+    min-width: 100%;
+  }
+
+  #gallery-view {
+    padding-top: 220px;
+  }
+
+  .sidepanel {
+    width: 100%;
+    max-width: 100%;
+    right: -100%;
+    height: 75vh;
+    top: auto;
+    bottom: 0;
+    border-radius: 20px 20px 0 0;
+    transition: bottom 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .sidepanel.open {
+    right: 0;
+    bottom: 0;
+  }
+
+  .panel-overlay.active {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand-text h1 {
+    font-size: 1.05rem;
+  }
+  .brand-subtitle {
+    display: none;
+  }
+  .stats-badge {
+    display: none;
+  }
+  #filter-bar {
+    top: 90px;
+  }
+  #gallery-view {
+    padding-top: 200px;
+  }
 }
