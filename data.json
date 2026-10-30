@@ -19,6 +19,32 @@
     "personatges": [
       "Veïns i comerciants de la Vila"
     ],
+    "elements": [
+      {
+        "id": "el-porxis",
+        "tipus": "edifici",
+        "nom": "Porxis medievals de la Vila",
+        "descripcio": "Galeria porticada d'arcs gòtics utilitzada històricament per al mercat setmanal.",
+        "regio": {
+          "x": 8.5,
+          "y": 32.0,
+          "ample": 38.0,
+          "alt": 46.0
+        }
+      },
+      {
+        "id": "el-comerciants",
+        "tipus": "persona",
+        "nom": "Veïns i comerciants",
+        "descripcio": "Ciutadans concentrats a la plaça amb indumentària típica de l'any 1924.",
+        "regio": {
+          "x": 50.0,
+          "y": 52.0,
+          "ample": 26.0,
+          "alt": 36.0
+        }
+      }
+    ],
     "lloc": "Plaça de la Vila (Els Porxis)",
     "carrer_actual": "Plaça Major / Plaça de la Vila",
     "donant": "Arxiu Municipal de Vila-real",

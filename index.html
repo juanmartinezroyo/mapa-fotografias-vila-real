@@ -189,6 +189,12 @@
           <div id="sidepanel-people-tags" class="tags-cluster people-cluster"></div>
         </div>
 
+        <!-- Elements identificats a la imatge -->
+        <div class="meta-section" id="sidepanel-elements-section" style="display: none;">
+          <h3 class="section-title">Elements identificats a la imatge</h3>
+          <ul id="sidepanel-elements-list" class="sidepanel-elements-list"></ul>
+        </div>
+
         <!-- Temes i Etiquetes -->
         <div class="meta-section">
           <h3 class="section-title">Temes relacionats</h3>
@@ -222,7 +228,16 @@
       <div class="modal-wrapper">
         <button class="modal-close-btn" onclick="cerrarModalImagen()" title="Tancar (ESC)">&times;</button>
         <div class="modal-figure">
-          <img id="modal-image" src="" alt="Fotografia històrica ampliada" />
+          <div id="modal-annot-viewer" class="annot-viewer">
+            <img id="modal-image" src="" alt="Fotografia històrica ampliada" />
+            <div id="modal-annot-layer" class="annot-view-layer"></div>
+            <div id="modal-annot-tooltip" class="annot-tooltip" role="tooltip" hidden></div>
+            <button type="button" id="btn-toggle-annots" class="btn-toggle-annots" aria-pressed="false" hidden>
+              <span class="toggle-eye">👁️</span>
+              <span id="btn-toggle-annots-text">Mostrar elements identificats</span>
+              <span id="btn-toggle-annots-count" class="toggle-count">0</span>
+            </button>
+          </div>
           <div class="modal-caption">
             <h3 id="modal-caption-title">Títol</h3>
             <span id="modal-caption-year">Any</span>
@@ -450,10 +465,70 @@
                 </div>
               </div>
 
-              <!-- BLOC 4: DADES DE L'ALUMNE/A -->
-              <div class="form-card-section">
+              <!-- BLOC 4: ELEMENTS IDENTIFICATS A LA IMATGE (ANOTACIONS) -->
+              <div class="form-card-section" id="annot-section">
                 <div class="section-badge-header">
                   <span class="badge-num">4</span>
+                  <h4>Elements identificats a la imatge <span class="optional-tag">opcional</span></h4>
+                </div>
+
+                <!-- Estat buit: encara no hi ha imatge carregada -->
+                <div id="annot-empty" class="annot-empty">
+                  <span class="annot-empty-icon">🖼️</span>
+                  <p>Tria primer la fotografia al <strong>bloc 1</strong> per poder marcar-hi persones, edificis, vehicles o objectes.</p>
+                </div>
+
+                <div id="annot-workspace" class="annot-workspace" style="display: none;">
+                  <p class="annot-hint">✏️ Fes clic i arrossega sobre la imatge per identificar una persona o element. Pots moure i redimensionar els requadres després.</p>
+
+                  <!-- Llenç de marcat: imatge + capa de regions -->
+                  <div id="annot-stage" class="annot-stage">
+                    <img id="annot-image" src="" alt="Fotografia per anotar" draggable="false" />
+                    <div id="annot-layer" class="annot-layer"></div>
+                  </div>
+
+                  <!-- Editor de l'element (apareix en tancar un requadre) -->
+                  <div id="annot-editor" class="annot-editor" style="display: none;">
+                    <div class="annot-editor-head">
+                      <strong id="annot-editor-title">Nou element</strong>
+                    </div>
+                    <div class="form-field">
+                      <label for="annot-nom">Nom / Títol de l'element <span class="req">*</span></label>
+                      <input type="text" id="annot-nom" placeholder="Ex: Campanar de l'Arxiprestal" autocomplete="off" />
+                    </div>
+                    <div class="form-field">
+                      <label for="annot-tipus">Tipus</label>
+                      <select id="annot-tipus">
+                        <option value="persona">👤 Persona</option>
+                        <option value="edifici">🏛️ Edifici</option>
+                        <option value="vehicle">🚋 Vehicle</option>
+                        <option value="objecte">🔍 Objecte</option>
+                        <option value="altre">✳️ Altre</option>
+                      </select>
+                    </div>
+                    <div class="form-field">
+                      <label for="annot-desc">Descripció o curiositat històrica</label>
+                      <textarea id="annot-desc" rows="2" placeholder="Ex: Guitarrista vila-realenc, assegut en primera fila."></textarea>
+                    </div>
+                    <div class="annot-editor-actions">
+                      <button type="button" id="annot-save" class="annot-btn annot-btn-primary">Guardar element</button>
+                      <button type="button" id="annot-cancel" class="annot-btn">Cancel·lar</button>
+                    </div>
+                  </div>
+
+                  <!-- Llista d'elements creats -->
+                  <div class="annot-list-head">
+                    <span>Elements marcats</span>
+                    <span id="annot-count" class="annot-count">0</span>
+                  </div>
+                  <ul id="annot-list" class="annot-list"></ul>
+                </div>
+              </div>
+
+              <!-- BLOC 5: DADES DE L'ALUMNE/A -->
+              <div class="form-card-section">
+                <div class="section-badge-header">
+                  <span class="badge-num">5</span>
                   <h4>Dades de l'Alumne/a (autoria)</h4>
                 </div>
 

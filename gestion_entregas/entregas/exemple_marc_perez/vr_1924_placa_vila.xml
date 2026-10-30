@@ -27,4 +27,16 @@
     <curs>4t ESO - Projecte Patrimoni</curs>
   </alumne>
   <donant>Arxiu Municipal de Vila-real</donant>
+  <elements_imatge>
+    <element id="el-porxis" tipus="edifici">
+      <nom>Porxis medievals de la Vila</nom>
+      <descripcio>Galeria porticada d'arcs gòtics utilitzada històricament per al mercat setmanal.</descripcio>
+      <regio x="8.5" y="32.0" ample="38.0" alt="46.0" />
+    </element>
+    <element id="el-comerciants" tipus="persona">
+      <nom>Veïns i comerciants</nom>
+      <descripcio>Ciutadans concentrats a la plaça amb indumentària típica de l'any 1924.</descripcio>
+      <regio x="50.0" y="52.0" ample="26.0" alt="36.0" />
+    </element>
+  </elements_imatge>
 </fotografia>

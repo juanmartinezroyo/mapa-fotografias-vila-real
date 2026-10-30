@@ -94,6 +94,42 @@
         <!-- Donant / Procedència: opcional -->
         <xs:element name="donant" type="xs:string" minOccurs="0" />
 
+        <!-- Elements / Regions anotades en la imatge: opcional -->
+        <xs:element name="elements_imatge" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="element" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="nom" type="xs:string" />
+                    <xs:element name="descripcio" type="xs:string" minOccurs="0" />
+                    <xs:element name="regio">
+                      <xs:complexType>
+                        <xs:attribute name="x" type="percentType" use="required" />
+                        <xs:attribute name="y" type="percentType" use="required" />
+                        <xs:attribute name="ample" type="percentType" use="required" />
+                        <xs:attribute name="alt" type="percentType" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="optional" />
+                  <xs:attribute name="tipus" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="persona" />
+                        <xs:enumeration value="edifici" />
+                        <xs:enumeration value="vehicle" />
+                        <xs:enumeration value="objecte" />
+                        <xs:enumeration value="altre" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
       </xs:all>
     </xs:complexType>
   </xs:element>
@@ -103,6 +139,14 @@
     <xs:restriction base="xs:integer">
       <xs:minInclusive value="1840" />
       <xs:maxInclusive value="2025" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Tipus personalitzat per a coordenades en percentatge (0.0 a 100.0) -->
+  <xs:simpleType name="percentType">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0.0" />
+      <xs:maxInclusive value="100.0" />
     </xs:restriction>
   </xs:simpleType>
 

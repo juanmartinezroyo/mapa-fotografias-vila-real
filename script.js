@@ -88,6 +88,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let maxYearSelected = 2000;
   let currentActivePhoto = null;
 
+  // Tipus d'elements anotables a les imatges (compartit pel creador i el visor)
+  const TIPUS_ELEMENTS = {
+    persona: { label: 'Persona', icon: '👤', color: '#d4573b' },
+    edifici: { label: 'Edifici', icon: '🏛️', color: '#c08a1e' },
+    vehicle: { label: 'Vehicle', icon: '🚋', color: '#2f8f6b' },
+    objecte: { label: 'Objecte', icon: '🔍', color: '#7b52c7' },
+    altre:   { label: 'Altre',   icon: '✳️', color: '#4f7cc4' }
+  };
+
+  function getTipusInfo(tipus) {
+    return TIPUS_ELEMENTS[tipus] || TIPUS_ELEMENTS.altre;
+  }
+
   // ==========================================================================
   // 3. ELEMENTS DEL DOM
   // ==========================================================================
@@ -135,6 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalCaptionTitle = document.getElementById('modal-caption-title');
   const modalCaptionYear = document.getElementById('modal-caption-year');
   const zoomImageBtn = document.getElementById('zoom-image-btn');
+  const modalAnnotViewer = document.getElementById('modal-annot-viewer');
+  const modalAnnotLayer = document.getElementById('modal-annot-layer');
+  const modalAnnotTooltip = document.getElementById('modal-annot-tooltip');
+  const btnToggleAnnots = document.getElementById('btn-toggle-annots');
+  const btnToggleAnnotsText = document.getElementById('btn-toggle-annots-text');
+  const btnToggleAnnotsCount = document.getElementById('btn-toggle-annots-count');
+  const sidepanelElementsSection = document.getElementById('sidepanel-elements-section');
+  const sidepanelElementsList = document.getElementById('sidepanel-elements-list');
 
   // ==========================================================================
   // 4. CREACIÓ DEL MARCADOR PERSONALITZAT
@@ -265,8 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const peopleMatch = Array.isArray(photo.personatges) && photo.personatges.some(p => p.toLowerCase().includes(q));
         const tagsMatch = Array.isArray(photo.tags) && photo.tags.some(t => t.toLowerCase().includes(q));
         const studentMatch = (photo.alumne && photo.alumne.nom) ? photo.alumne.nom.toLowerCase().includes(q) : false;
+        const elementsMatch = Array.isArray(photo.elements) && photo.elements.some(el => (el.nom || '').toLowerCase().includes(q));
 
-        passQuery = titleMatch || descMatch || placeMatch || streetMatch || yearMatch || peopleMatch || tagsMatch || studentMatch;
+        passQuery = titleMatch || descMatch || placeMatch || streetMatch || yearMatch || peopleMatch || tagsMatch || studentMatch || elementsMatch;
       }
 
       return passYear && passCat && passQuery;
@@ -390,6 +412,35 @@ document.addEventListener('DOMContentLoaded', () => {
       sidepanelPeopleSection.style.display = 'none';
     }
 
+    // Elements identificats a la imatge (clic -> veure'ls ressaltats a la foto ampliada)
+    sidepanelElementsList.innerHTML = '';
+    if (Array.isArray(photo.elements) && photo.elements.length > 0) {
+      sidepanelElementsSection.style.display = 'block';
+      photo.elements.forEach(el => {
+        const info = getTipusInfo(el.tipus);
+        const li = document.createElement('li');
+        li.className = 'sidepanel-element-item';
+        li.style.setProperty('--annot-color', info.color);
+        li.setAttribute('tabindex', '0');
+        li.title = 'Veure aquest element a la fotografia';
+        li.innerHTML = `
+          <span class="sp-el-icon">${info.icon}</span>
+          <span class="sp-el-texts">
+            <strong>${escapeHtml(el.nom)}</strong>
+            <span class="sp-el-type">${info.label}</span>
+          </span>
+          <span class="sp-el-go">Veure &rarr;</span>
+        `;
+        li.addEventListener('click', () => openImageModal(el.id));
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') openImageModal(el.id);
+        });
+        sidepanelElementsList.appendChild(li);
+      });
+    } else {
+      sidepanelElementsSection.style.display = 'none';
+    }
+
     // Temes / Etiquetes
     sidepanelTags.innerHTML = '';
     if (Array.isArray(photo.tags) && photo.tags.length > 0) {
@@ -435,20 +486,157 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 10. MODAL D'AMPLIACIÓ DE FOTOGRAFIA
   // ==========================================================================
-  zoomImageBtn.addEventListener('click', () => {
-    if (currentActivePhoto) {
-      modalImage.src = 'img/' + currentActivePhoto.img;
-      modalCaptionTitle.textContent = currentActivePhoto.titulo;
-      modalCaptionYear.textContent = currentActivePhoto.year ? `Any ${currentActivePhoto.year}` : '';
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-    }
-  });
+  let annotsVisible = false;   // Capa d'elements identificats activa o no
+  let pinnedAnnotId = null;    // Element amb la targeta fixada (clic / pulsació en mòbil)
+
+  // focusElementId (opcional): element a ressaltar en obrir el modal
+  function openImageModal(focusElementId) {
+    if (!currentActivePhoto) return;
+
+    modalImage.src = 'img/' + currentActivePhoto.img;
+    modalImage.onerror = () => { modalImage.src = 'img/fallback.jpg'; };
+    modalCaptionTitle.textContent = currentActivePhoto.titulo;
+    modalCaptionYear.textContent = currentActivePhoto.year ? `Any ${currentActivePhoto.year}` : '';
+
+    if (focusElementId) annotsVisible = true;
+    renderModalAnnotations(currentActivePhoto);
+
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+
+    if (focusElementId) focusModalAnnotation(focusElementId);
+  }
+
+  zoomImageBtn.addEventListener('click', () => openImageModal(null));
 
   window.cerrarModalImagen = function() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
+    hideAnnotTooltip(true);
   };
+
+  // 10.1. Capa interactiva d'elements identificats sobre la foto ampliada
+  function renderModalAnnotations(photo) {
+    modalAnnotLayer.innerHTML = '';
+    hideAnnotTooltip(true);
+
+    const elements = Array.isArray(photo.elements) ? photo.elements : [];
+    btnToggleAnnots.hidden = elements.length === 0;
+    btnToggleAnnotsCount.textContent = elements.length;
+
+    elements.forEach(el => {
+      if (!el.regio) return;
+      const info = getTipusInfo(el.tipus);
+      const box = document.createElement('div');
+      box.className = 'annot-view-box';
+      box.dataset.id = el.id;
+      box.style.left = el.regio.x + '%';
+      box.style.top = el.regio.y + '%';
+      box.style.width = el.regio.ample + '%';
+      box.style.height = el.regio.alt + '%';
+      box.style.setProperty('--annot-color', info.color);
+      box.setAttribute('tabindex', '0');
+      box.setAttribute('aria-label', `${info.label}: ${el.nom}`);
+      box.innerHTML = `<span class="annot-view-chip">${info.icon}</span>`;
+
+      box.addEventListener('mouseenter', () => {
+        if (!pinnedAnnotId) showAnnotTooltip(el, box);
+      });
+      box.addEventListener('mouseleave', () => {
+        if (!pinnedAnnotId) hideAnnotTooltip(false);
+      });
+      box.addEventListener('focus', () => showAnnotTooltip(el, box));
+      box.addEventListener('blur', () => {
+        if (!pinnedAnnotId) hideAnnotTooltip(false);
+      });
+      box.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (pinnedAnnotId === el.id) {
+          hideAnnotTooltip(true);
+        } else {
+          pinnedAnnotId = el.id;
+          showAnnotTooltip(el, box);
+        }
+      });
+
+      modalAnnotLayer.appendChild(box);
+    });
+
+    updateAnnotsToggle();
+  }
+
+  function updateAnnotsToggle() {
+    modalAnnotLayer.classList.toggle('visible', annotsVisible);
+    btnToggleAnnots.classList.toggle('active', annotsVisible);
+    btnToggleAnnots.setAttribute('aria-pressed', String(annotsVisible));
+    btnToggleAnnotsText.textContent = annotsVisible ? 'Amagar elements identificats' : 'Mostrar elements identificats';
+    if (!annotsVisible) hideAnnotTooltip(true);
+  }
+
+  btnToggleAnnots.addEventListener('click', (e) => {
+    e.stopPropagation();
+    annotsVisible = !annotsVisible;
+    updateAnnotsToggle();
+  });
+
+  // Targeta flotant amb tipus, nom i descripció. Es col·loca damunt o davall
+  // del requadre segons l'espai disponible (coordenades en %, per tant responsive).
+  function showAnnotTooltip(el, box) {
+    const info = getTipusInfo(el.tipus);
+    const r = el.regio;
+
+    modalAnnotTooltip.style.setProperty('--annot-color', info.color);
+    modalAnnotTooltip.innerHTML = `
+      <span class="annot-tooltip-badge">${info.icon} ${info.label}</span>
+      <strong class="annot-tooltip-name">${escapeHtml(el.nom)}</strong>
+      ${el.descripcio ? `<p class="annot-tooltip-desc">${escapeHtml(el.descripcio)}</p>` : ''}
+    `;
+
+    modalAnnotTooltip.style.left = modalAnnotTooltip.style.right = '';
+    modalAnnotTooltip.style.top = modalAnnotTooltip.style.bottom = '';
+
+    if (r.x + r.ample / 2 <= 50) {
+      modalAnnotTooltip.style.left = r.x + '%';
+    } else {
+      modalAnnotTooltip.style.right = (100 - r.x - r.ample) + '%';
+    }
+
+    if (r.y >= 25) {
+      modalAnnotTooltip.style.bottom = `calc(${100 - r.y}% + 8px)`;
+    } else if (r.y + r.alt <= 75) {
+      modalAnnotTooltip.style.top = `calc(${r.y + r.alt}% + 8px)`;
+    } else {
+      modalAnnotTooltip.style.top = `calc(${r.y}% + 8px)`;
+    }
+
+    modalAnnotLayer.querySelectorAll('.annot-view-box.highlight').forEach(b => b.classList.remove('highlight'));
+    box.classList.add('highlight');
+    modalAnnotTooltip.hidden = false;
+  }
+
+  function hideAnnotTooltip(clearPin) {
+    if (clearPin) pinnedAnnotId = null;
+    modalAnnotTooltip.hidden = true;
+    modalAnnotLayer.querySelectorAll('.annot-view-box.highlight').forEach(b => b.classList.remove('highlight'));
+  }
+
+  // Ressaltar (parpelleig) un element concret i fixar la seua targeta
+  function focusModalAnnotation(elementId) {
+    const el = (currentActivePhoto.elements || []).find(item => item.id === elementId);
+    const box = modalAnnotLayer.querySelector(`.annot-view-box[data-id="${CSS.escape(elementId)}"]`);
+    if (!el || !box) return;
+
+    pinnedAnnotId = el.id;
+    showAnnotTooltip(el, box);
+    box.classList.remove('flash');
+    void box.offsetWidth; // Reiniciar l'animació
+    box.classList.add('flash');
+  }
+
+  // Clic sobre la imatge (fora dels requadres) -> tancar targeta fixada
+  modalAnnotViewer.addEventListener('click', () => {
+    if (pinnedAnnotId) hideAnnotTooltip(true);
+  });
 
   // Tancar amb tecla Escape
   document.addEventListener('keydown', (e) => {
@@ -800,6 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
         previewFilename.textContent = file.name;
         previewFilesize.textContent = (file.size / 1024).toFixed(1) + ' KB';
         filePreviewCard.style.display = 'flex';
+        loadAnnotatorImage(event.target.result);
       };
       reader.readAsDataURL(file);
 
@@ -822,6 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
       formImageFile.value = '';
       filePreviewCard.style.display = 'none';
       imagePreviewThumb.src = '';
+      resetAnnotator();
     });
   }
 
@@ -915,6 +1105,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return null;
     }
 
+    if (annotEditor.style.display !== 'none') {
+      alert('⚠️ Tens un element de la imatge sense guardar. Prem "Guardar element" o "Cancel·lar" abans de generar el XML.');
+      annotEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return null;
+    }
+
     if (!alumneNom) {
       alert("⚠️ Introdueix el teu nom i cognoms com a autor/a de l'entrega.");
       formAlumneNom.focus();
@@ -954,6 +1150,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // Processar elements identificats a la imatge (coordenades en %)
+    let elementsBlock = '';
+    if (annotElements.length > 0) {
+      elementsBlock = '  <!-- Elements identificats a la imatge (coordenades en % respecte a la imatge) -->\n' +
+        '  <elements_imatge>\n' +
+        annotElements.map(el => {
+          const r = el.regio;
+          const descXml = el.descripcio ? `      <descripcio>${escapeXml(el.descripcio)}</descripcio>\n` : '';
+          return `    <element id="${escapeXml(el.id)}" tipus="${escapeXml(el.tipus)}">\n` +
+            `      <nom>${escapeXml(el.nom)}</nom>\n` +
+            descXml +
+            `      <regio x="${fmtPct(r.x)}" y="${fmtPct(r.y)}" ample="${fmtPct(r.ample)}" alt="${fmtPct(r.alt)}" />\n` +
+            '    </element>';
+        }).join('\n') +
+        '\n  </elements_imatge>\n\n';
+    }
+
     // Processar camps opcionals
     const toponimXml = toponim ? `    <toponim_historic>${escapeXml(toponim)}</toponim_historic>\n` : '';
     const carrerXml = carrer ? `    <carrer_actual>${escapeXml(carrer)}</carrer_actual>\n` : '';
@@ -991,7 +1204,7 @@ ${toponimXml}${carrerXml}  </geolocalitzacio>
   <!-- Context històric -->
   <descripcio>${escapeXml(descripcio)}</descripcio>
 
-${temesBlock}${personatgesBlock}  <!-- Dades de l'alumne/a -->
+${temesBlock}${personatgesBlock}${elementsBlock}  <!-- Dades de l'alumne/a -->
   <alumne>
     <nom>${escapeXml(alumneNom)}</nom>
     <curs>${escapeXml(alumneCurs)}</curs>
@@ -1096,11 +1309,347 @@ ${donantXml}</fotografia>
     });
   });
 
+  // ==========================================================================
+  // 14. ANOTADOR D'ELEMENTS DE LA IMATGE (REGIONS EN %)
+  // ==========================================================================
+  const annotEmpty = document.getElementById('annot-empty');
+  const annotWorkspace = document.getElementById('annot-workspace');
+  const annotStage = document.getElementById('annot-stage');
+  const annotImage = document.getElementById('annot-image');
+  const annotLayer = document.getElementById('annot-layer');
+  const annotEditor = document.getElementById('annot-editor');
+  const annotEditorTitle = document.getElementById('annot-editor-title');
+  const annotNom = document.getElementById('annot-nom');
+  const annotTipus = document.getElementById('annot-tipus');
+  const annotDesc = document.getElementById('annot-desc');
+  const annotSaveBtn = document.getElementById('annot-save');
+  const annotCancelBtn = document.getElementById('annot-cancel');
+  const annotList = document.getElementById('annot-list');
+  const annotCount = document.getElementById('annot-count');
+
+  const ANNOT_MIN_SIZE = 1.5; // Mida mínima d'un requadre (en %)
+
+  let annotElements = [];      // [{ id, tipus, nom, descripcio, regio: { x, y, ample, alt } }]
+  let annotCounter = 0;        // Per generar identificadors únics (elem-1, elem-2...)
+  let annotSelectedId = null;  // Requadre seleccionat (mostra les nanses de redimensionat)
+  let annotEditingId = null;   // Element obert a l'editor (null = element nou)
+  let annotDraft = null;       // Regió del requadre nou pendent de guardar
+  let annotDrag = null;        // { mode: 'draw'|'move'|'resize', start, orig, corner, box }
+
+  function clampPct(v, min, max) {
+    return Math.min(max, Math.max(min, v));
+  }
+
+  function fmtPct(v) {
+    return String(Number(v.toFixed(2)));
+  }
+
+  // Posició del punter en % respecte a la imatge
+  function pointerToPct(e) {
+    const rect = annotStage.getBoundingClientRect();
+    return {
+      x: clampPct((e.clientX - rect.left) / rect.width * 100, 0, 100),
+      y: clampPct((e.clientY - rect.top) / rect.height * 100, 0, 100)
+    };
+  }
+
+  function rectFromPoints(a, b) {
+    return {
+      x: Math.min(a.x, b.x),
+      y: Math.min(a.y, b.y),
+      ample: Math.abs(a.x - b.x),
+      alt: Math.abs(a.y - b.y)
+    };
+  }
+
+  function applyRegioStyle(box, r) {
+    box.style.left = r.x + '%';
+    box.style.top = r.y + '%';
+    box.style.width = r.ample + '%';
+    box.style.height = r.alt + '%';
+  }
+
+  function loadAnnotatorImage(dataUrl) {
+    annotImage.src = dataUrl;
+    annotEmpty.style.display = 'none';
+    annotWorkspace.style.display = 'block';
+    renderAnnotations();
+  }
+
+  function resetAnnotator() {
+    annotElements = [];
+    annotCounter = 0;
+    annotSelectedId = null;
+    annotDrag = null;
+    closeAnnotEditor();
+    annotImage.src = '';
+    annotWorkspace.style.display = 'none';
+    annotEmpty.style.display = 'flex';
+    renderAnnotations();
+  }
+
+  // 14.1. Renderitzat dels requadres i de la llista
+  function renderAnnotations() {
+    annotLayer.innerHTML = '';
+
+    annotElements.forEach(el => {
+      const info = getTipusInfo(el.tipus);
+      const box = document.createElement('div');
+      box.className = 'annot-box' + (el.id === annotSelectedId ? ' selected' : '');
+      box.dataset.id = el.id;
+      box.style.setProperty('--annot-color', info.color);
+      applyRegioStyle(box, el.regio);
+      box.innerHTML = `
+        <span class="annot-box-label">${info.icon} ${escapeHtml(el.nom)}</span>
+        <span class="annot-handle" data-corner="nw"></span>
+        <span class="annot-handle" data-corner="ne"></span>
+        <span class="annot-handle" data-corner="sw"></span>
+        <span class="annot-handle" data-corner="se"></span>
+      `;
+      annotLayer.appendChild(box);
+    });
+
+    if (annotDraft) {
+      const draft = document.createElement('div');
+      draft.className = 'annot-box draft';
+      draft.style.setProperty('--annot-color', getTipusInfo(annotTipus.value).color);
+      applyRegioStyle(draft, annotDraft);
+      annotLayer.appendChild(draft);
+    }
+
+    renderAnnotList();
+  }
+
+  function renderAnnotList() {
+    annotList.innerHTML = '';
+    annotCount.textContent = annotElements.length;
+
+    if (annotElements.length === 0) {
+      annotList.innerHTML = '<li class="annot-list-empty">Encara no has marcat cap element.</li>';
+      return;
+    }
+
+    annotElements.forEach(el => {
+      const info = getTipusInfo(el.tipus);
+      const li = document.createElement('li');
+      li.className = 'annot-list-item' + (el.id === annotSelectedId ? ' selected' : '');
+      li.style.setProperty('--annot-color', info.color);
+      li.innerHTML = `
+        <span class="annot-list-icon">${info.icon}</span>
+        <span class="annot-list-texts">
+          <strong>${escapeHtml(el.nom)}</strong>
+          <span>${info.label}${el.descripcio ? ' · ' + escapeHtml(el.descripcio) : ''}</span>
+        </span>
+        <button type="button" class="annot-list-btn" data-action="edit" title="Editar dades">✏️</button>
+        <button type="button" class="annot-list-btn danger" data-action="delete" title="Eliminar element">🗑️</button>
+      `;
+
+      // Efecte glow sobre el requadre en passar el ratolí per la targeta
+      li.addEventListener('mouseenter', () => setAnnotGlow(el.id, true));
+      li.addEventListener('mouseleave', () => setAnnotGlow(el.id, false));
+
+      li.addEventListener('click', (e) => {
+        const action = e.target.closest('[data-action]')?.dataset.action;
+        if (action === 'delete') {
+          deleteAnnotation(el.id);
+        } else if (action === 'edit') {
+          annotSelectedId = el.id;
+          openAnnotEditor(el.id);
+        } else {
+          annotSelectedId = el.id;
+          renderAnnotations();
+        }
+      });
+
+      annotList.appendChild(li);
+    });
+  }
+
+  function setAnnotGlow(id, on) {
+    const box = annotLayer.querySelector(`.annot-box[data-id="${CSS.escape(id)}"]`);
+    if (box) box.classList.toggle('glow', on);
+  }
+
+  function deleteAnnotation(id) {
+    annotElements = annotElements.filter(el => el.id !== id);
+    if (annotSelectedId === id) annotSelectedId = null;
+    if (annotEditingId === id) closeAnnotEditor();
+    renderAnnotations();
+  }
+
+  // 14.2. Editor de dades de l'element
+  function openAnnotEditor(id) {
+    annotEditingId = id;
+    const el = id ? annotElements.find(item => item.id === id) : null;
+
+    annotEditorTitle.textContent = el ? 'Editar element' : 'Nou element';
+    annotNom.value = el ? el.nom : '';
+    annotTipus.value = el ? el.tipus : 'persona';
+    annotDesc.value = el ? el.descripcio : '';
+    annotEditor.style.display = 'block';
+
+    renderAnnotations();
+    annotNom.focus();
+  }
+
+  function closeAnnotEditor() {
+    annotEditor.style.display = 'none';
+    annotEditingId = null;
+    annotDraft = null;
+  }
+
+  annotSaveBtn.addEventListener('click', () => {
+    const nom = annotNom.value.trim();
+    if (!nom) {
+      alert("⚠️ Escriu el nom o títol de l'element identificat.");
+      annotNom.focus();
+      return;
+    }
+
+    const dades = {
+      tipus: annotTipus.value,
+      nom: nom,
+      descripcio: annotDesc.value.trim()
+    };
+
+    if (annotEditingId) {
+      Object.assign(annotElements.find(el => el.id === annotEditingId), dades);
+      annotSelectedId = annotEditingId;
+    } else if (annotDraft) {
+      annotCounter += 1;
+      const nouElement = { id: `elem-${annotCounter}`, ...dades, regio: annotDraft };
+      annotElements.push(nouElement);
+      annotSelectedId = nouElement.id;
+    }
+
+    closeAnnotEditor();
+    renderAnnotations();
+  });
+
+  annotCancelBtn.addEventListener('click', () => {
+    closeAnnotEditor();
+    renderAnnotations();
+  });
+
+  // Canviar el tipus mentre es dibuixa actualitza el color del requadre provisional
+  annotTipus.addEventListener('change', () => {
+    if (annotDraft) renderAnnotations();
+  });
+
+  // Enter dins del camp de nom guarda l'element (sense enviar el formulari principal)
+  annotNom.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      annotSaveBtn.click();
+    }
+  });
+
+  // 14.3. Dibuixar, moure i redimensionar requadres (Pointer Events: ratolí i tàctil)
+  annotStage.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+
+    const p = pointerToPct(e);
+    const handle = e.target.closest('.annot-handle');
+    const boxEl = e.target.closest('.annot-box:not(.draft)');
+
+    if (boxEl) {
+      const el = annotElements.find(item => item.id === boxEl.dataset.id);
+      if (annotSelectedId !== el.id) {
+        annotSelectedId = el.id;
+        renderAnnotations();
+      }
+      const box = annotLayer.querySelector(`.annot-box[data-id="${CSS.escape(el.id)}"]`);
+      annotDrag = {
+        mode: handle ? 'resize' : 'move',
+        corner: handle ? handle.dataset.corner : null,
+        start: p,
+        orig: { ...el.regio },
+        el: el,
+        box: box
+      };
+    } else {
+      // Començar un requadre nou (es guarda l'esborrany anterior per si només és un clic)
+      const prevDraft = annotDraft;
+      annotSelectedId = null;
+      annotDraft = { x: p.x, y: p.y, ample: 0, alt: 0 };
+      renderAnnotations();
+      annotDrag = {
+        mode: 'draw',
+        start: p,
+        prevDraft: prevDraft,
+        box: annotLayer.querySelector('.annot-box.draft')
+      };
+    }
+
+    annotStage.setPointerCapture(e.pointerId);
+  });
+
+  annotStage.addEventListener('pointermove', (e) => {
+    if (!annotDrag) return;
+    const p = pointerToPct(e);
+
+    if (annotDrag.mode === 'draw') {
+      annotDraft = rectFromPoints(annotDrag.start, p);
+      applyRegioStyle(annotDrag.box, annotDraft);
+    } else if (annotDrag.mode === 'move') {
+      const o = annotDrag.orig;
+      annotDrag.el.regio = {
+        x: clampPct(o.x + (p.x - annotDrag.start.x), 0, 100 - o.ample),
+        y: clampPct(o.y + (p.y - annotDrag.start.y), 0, 100 - o.alt),
+        ample: o.ample,
+        alt: o.alt
+      };
+      applyRegioStyle(annotDrag.box, annotDrag.el.regio);
+    } else if (annotDrag.mode === 'resize') {
+      // La cantonada oposada a la nansa queda fixa
+      const o = annotDrag.orig;
+      const c = annotDrag.corner;
+      const fixed = {
+        x: c.includes('w') ? o.x + o.ample : o.x,
+        y: c.includes('n') ? o.y + o.alt : o.y
+      };
+      const r = rectFromPoints(fixed, p);
+      if (r.ample >= ANNOT_MIN_SIZE && r.alt >= ANNOT_MIN_SIZE) {
+        annotDrag.el.regio = r;
+        applyRegioStyle(annotDrag.box, r);
+      }
+    }
+  });
+
+  function endAnnotDrag() {
+    if (!annotDrag) return;
+    const { mode, prevDraft } = annotDrag;
+    annotDrag = null;
+
+    if (mode === 'draw') {
+      const editorObertNou = annotEditor.style.display !== 'none' && !annotEditingId;
+      if (annotDraft.ample < ANNOT_MIN_SIZE || annotDraft.alt < ANNOT_MIN_SIZE) {
+        // Un simple clic sense arrossegar: deseleccionar i conservar l'esborrany pendent
+        annotDraft = prevDraft;
+        renderAnnotations();
+      } else if (editorObertNou) {
+        // Redibuixar mentre s'omplen les dades: es manté el que ja s'ha escrit
+        renderAnnotations();
+      } else {
+        openAnnotEditor(null);
+      }
+    } else {
+      renderAnnotations();
+    }
+  }
+
+  annotStage.addEventListener('pointerup', endAnnotDrag);
+  annotStage.addEventListener('pointercancel', endAnnotDrag);
+
   // Tancar espai creador o modal amb ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (xmlModal.classList.contains('active')) {
         closeXmlModal();
+      } else if (annotEditor.style.display !== 'none') {
+        closeAnnotEditor();
+        renderAnnotations();
       } else if (xmlCreatorSpace.style.display === 'flex') {
         closeXmlCreator();
       }

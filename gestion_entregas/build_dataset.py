@@ -294,6 +294,52 @@ def validar_entrega(carpeta_path):
     # --- DONANT ---
     donant = _text(root, "donant")
 
+    # --- ELEMENTS IMATGE (REGIONS ANOTADES) ---
+    elements_llista = []
+    elem_root = root.find("elements_imatge")
+    tipus_admesos = {"persona", "edifici", "vehicle", "objecte", "altre"}
+    if elem_root is not None:
+        for idx, el in enumerate(elem_root.findall("element"), start=1):
+            el_id = el.get("id", f"elem-{idx}").strip()
+            tipus = el.get("tipus", "altre").strip().lower()
+            nom = _text(el, "nom")
+            desc = _text(el, "descripcio")
+
+            if not nom:
+                result.afegir_error(f"L'element anotat #{idx} no té el camp <nom> obligatori.")
+            if tipus not in tipus_admesos:
+                result.afegir_avis(f"L'element anotat '{nom or idx}' té el tipus '{tipus}', que no és estàndard.")
+
+            regio = el.find("regio")
+            if regio is None:
+                result.afegir_error(f"L'element anotat '{nom or idx}' no té l'element <regio> amb coordenades.")
+            else:
+                try:
+                    rx = float(regio.get("x", "-1").replace(",", "."))
+                    ry = float(regio.get("y", "-1").replace(",", "."))
+                    rw = float(regio.get("ample", "-1").replace(",", "."))
+                    rh = float(regio.get("alt", "-1").replace(",", "."))
+
+                    if not (0 <= rx <= 100 and 0 <= ry <= 100):
+                        result.afegir_error(f"L'element '{nom}' té coordenades d'origen (x={rx}, y={ry}) fora del rang permès (0-100%).")
+                    if rw <= 0 or rh <= 0 or (rx + rw > 105) or (ry + rh > 105):
+                        result.afegir_error(f"L'element '{nom}' té dimensions (ample={rw}, alt={rh}) invàlides.")
+
+                    elements_llista.append({
+                        "id": el_id,
+                        "tipus": tipus,
+                        "nom": nom,
+                        "descripcio": desc,
+                        "regio": {
+                            "x": round(rx, 2),
+                            "y": round(ry, 2),
+                            "ample": round(rw, 2),
+                            "alt": round(rh, 2)
+                        }
+                    })
+                except (ValueError, TypeError):
+                    result.afegir_error(f"L'element '{nom}' té coordenades de <regio> no numèriques.")
+
     # 5. Si no hi ha errors, construir el diccionari de dades
     if result.es_valid:
         result.dades = {
@@ -308,6 +354,7 @@ def validar_entrega(carpeta_path):
             "categoria": categoria,
             "tags": temes,
             "personatges": personatges,
+            "elements": elements_llista,
             "lloc": toponim_historic,
             "carrer_actual": carrer_actual,
             "donant": donant,

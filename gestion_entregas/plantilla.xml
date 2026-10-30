@@ -86,6 +86,19 @@
     <personatge>Veïns del centre històric</personatge>
   </personatges>
 
+  <!-- ======== ELEMENTS IDENTIFICATS A LA IMATGE ======== -->
+  <!-- OPCIONAL: Persones, edificis, vehicles o objectes marcats sobre la foto -->
+  <!-- tipus: persona | edifici | vehicle | objecte | altre -->
+  <!-- Coordenades en % de la imatge (0 a 100): x (esquerra), y (dalt), ample, alt -->
+  <!-- Consell: és més fàcil marcar-les amb el Creador XML de la web -->
+  <elements_imatge>
+    <element id="elem-1" tipus="edifici">
+      <nom>Porxis de la Plaça de la Vila</nom>
+      <descripcio>Galeria porticada on se celebrava el mercat setmanal.</descripcio>
+      <regio x="8.5" y="32.0" ample="38.0" alt="46.0" />
+    </element>
+  </elements_imatge>
+
   <!-- ======== DADES DE L'ALUMNE/A ======== -->
   <!-- OBLIGATORI: Informació de qui aporta la fotografia -->
   <alumne>
