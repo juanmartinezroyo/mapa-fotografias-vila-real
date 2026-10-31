@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1915_pont_santa_quiteria_01</id>
+  <titol>Pont de Santa Quitèria sobre el Millars</titol>
+  <arxiu_imatge>puente_antiguo.jpg</arxiu_imatge>
+  <any exacte="true">1915</any>
+  <categoria>infraestructura</categoria>
+  <geolocalitzacio>
+    <latitud>39.91280</latitud>
+    <longitud>-0.12050</longitud>
+    <toponim_historic>Pont de Santa Quitèria</toponim_historic>
+    <carrer_actual>Camí del Pont / Riu Millars</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Vista del pont d'arcs sobre el riu Millars, pas històric del camí cap a Almassora. Prova: tres elements que se solapen i un que toca les vores de la imatge.</descripcio>
+  <temes>
+    <tema>pont</tema>
+    <tema>riu Millars</tema>
+    <tema>camins</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="altre">
+      <nom>Pinar de la riba</nom>
+      <descripcio>Arbres de la vora del riu.</descripcio>
+      <regio x="8" y="28" ample="88" alt="18" />
+    </element>
+    <element id="elem-2" tipus="edifici">
+      <nom>Arcs del pont</nom>
+      <descripcio>Quatre arcs de pedra sobre el llit del riu.</descripcio>
+      <regio x="11" y="47" ample="76" alt="23" />
+    </element>
+    <element id="elem-3" tipus="altre">
+      <nom>Riu Millars</nom>
+      <descripcio>Element que toca la vora esquerra i inferior.</descripcio>
+      <regio x="0" y="70" ample="78" alt="30" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Pau Rubert Mezquita</nom>
+    <curs>4t ESO A</curs>
+    <centre>IES Miralcamp</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

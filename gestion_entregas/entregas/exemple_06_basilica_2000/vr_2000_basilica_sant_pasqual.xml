@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_2000_basilica_sant_pasqual_01</id>
+  <titol>Entorn de la Basílica de Sant Pasqual</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="true">2000</any>
+  <categoria>arquitectura</categoria>
+  <geolocalitzacio>
+    <latitud>39.94080</latitud>
+    <longitud>-0.10620</longitud>
+    <toponim_historic>Basílica de Sant Pasqual</toponim_historic>
+    <carrer_actual>Carrer de Sant Pasqual</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. 
+
+Segon paràgraf: el panell ha de continuar mostrant les seccions de personatges, elements, temes i autoria sense solapaments.</descripcio>
+  <temes>
+    <tema>basílica</tema>
+    <tema>Sant Pasqual</tema>
+    <tema>patrimoni</tema>
+    <tema>religió</tema>
+    <tema>arquitectura</tema>
+    <tema>segle XX</tema>
+    <tema>carrer</tema>
+    <tema>veïnat</tema>
+    <tema>festes</tema>
+    <tema>pelegrinatge</tema>
+    <tema>centre</tema>
+    <tema>història local</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="edifici">
+      <nom>Façana principal</nom>
+      <regio x="20" y="10" ample="60" alt="70" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Carla Monfort Albiol</nom>
+    <curs>1r Batxillerat A</curs>
+    <centre>IES Francesc Tàrrega</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

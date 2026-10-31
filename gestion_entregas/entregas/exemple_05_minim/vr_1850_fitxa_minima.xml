@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1850_fitxa_minima_01</id>
+  <titol>Fitxa mínima (només camps obligatoris)</titol>
+  <arxiu_imatge>puente_antiguo.jpg</arxiu_imatge>
+  <any exacte="true">1850</any>
+  <categoria>infraestructura</categoria>
+  <geolocalitzacio>
+    <latitud>39.88900</latitud>
+    <longitud>-0.16800</longitud>
+  </geolocalitzacio>
+  <descripcio>Prova: any 1850 (límit inferior de la línia temporal), coordenades a la vora del terme, curs buit, sense centre i sense cap camp opcional.</descripcio>
+  <alumne>
+    <nom>Joan Prova Mínima</nom>
+    <curs></curs>
+    <centre></centre>
+  </alumne>
+</fotografia>

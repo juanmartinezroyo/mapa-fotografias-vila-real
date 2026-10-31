@@ -795,13 +795,15 @@ html, body {
   overflow: hidden;
   box-shadow: var(--shadow-md);
   background-color: #222;
-  aspect-ratio: 4 / 3;
+  flex-shrink: 0; /* Evita que el panell (flex) l'aplane quan la fitxa té molt de contingut */
 }
 
+/* Imatge sencera (sense retallar), també si és vertical */
 .sidepanel-hero-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 55vh;
+  object-fit: contain;
   display: block;
 }
 

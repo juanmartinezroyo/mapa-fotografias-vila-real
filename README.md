@@ -87,7 +87,7 @@ L'estructura oficial està definida a
 | `categoria` | Sí | `arquitectura`, `infraestructura`, `vida quotidiana`, `esdeveniments` o `personatges` |
 | `geolocalitzacio` | Sí | `latitud`, `longitud` (amb punt decimal), i opcionalment `toponim_historic` i `carrer_actual` |
 | `descripcio` | Sí | Context històric |
-| `alumne` | Sí | `nom` i `curs` |
+| `alumne` | Sí | `nom`, `curs` i `centre` (institut; si falta, el validador avisa) |
 | `temes` | No | Llista de `tema` |
 | `personatges` | No | Llista de `personatge` |
 | `donant` | No | Procedència de la fotografia |

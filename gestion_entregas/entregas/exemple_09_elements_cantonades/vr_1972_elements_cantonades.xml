@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1972_elements_cantonades_01</id>
+  <titol>Arxiprestal: elements a les cantonades</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="true">1972</any>
+  <categoria>arquitectura</categoria>
+  <geolocalitzacio>
+    <latitud>39.93770</latitud>
+    <longitud>-0.10180</longitud>
+    <toponim_historic>Arxiprestal de Sant Jaume</toponim_historic>
+    <carrer_actual>Plaça de l'Església</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Prova de posició de les targetes: un element ocupa tota la imatge i n'hi ha un a cada cantonada. Un dels elements té un nom i una descripció molt llargs.</descripcio>
+  <temes>
+    <tema>arxiprestal</tema>
+    <tema>església</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="altre">
+      <nom>Imatge sencera</nom>
+      <descripcio>Element que ocupa el 100 % de la foto.</descripcio>
+      <regio x="0" y="0" ample="100" alt="100" />
+    </element>
+    <element id="elem-2" tipus="objecte">
+      <nom>Cantonada superior esquerra</nom>
+      <regio x="0" y="0" ample="12" alt="12" />
+    </element>
+    <element id="elem-3" tipus="objecte">
+      <nom>Cantonada superior dreta</nom>
+      <regio x="88" y="0" ample="12" alt="12" />
+    </element>
+    <element id="elem-4" tipus="objecte">
+      <nom>Cantonada inferior esquerra</nom>
+      <regio x="0" y="88" ample="12" alt="12" />
+    </element>
+    <element id="elem-5" tipus="edifici">
+      <nom>Element amb un nom extraordinàriament llarg per comprovar que la targeta no es desborda</nom>
+      <descripcio>Descripció llarga: la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla. la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla. la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla. </descripcio>
+      <regio x="88" y="88" ample="12" alt="12" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Nil Cantavella Vives</nom>
+    <curs>4t ESO A</curs>
+    <centre>IES Francesc Tàrrega</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

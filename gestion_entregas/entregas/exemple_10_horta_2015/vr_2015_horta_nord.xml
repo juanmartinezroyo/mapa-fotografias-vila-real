@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_2015_horta_nord_01</id>
+  <titol>Camí de l'horta (any posterior a 2000)</titol>
+  <arxiu_imatge>puente_antiguo.jpg</arxiu_imatge>
+  <any exacte="true">2015</any>
+  <categoria>vida quotidiana</categoria>
+  <geolocalitzacio>
+    <latitud>39.95500</latitud>
+    <longitud>-0.08500</longitud>
+  </geolocalitzacio>
+  <descripcio>Prova: any 2015, posterior al final de la línia temporal (2000); sense topònim ni carrer; format antic sense el camp &lt;centre&gt;.</descripcio>
+  <temes>
+    <tema>horta</tema>
+    <tema>tarongers</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="altre">
+      <nom>Vegetació de ribera</nom>
+      <regio x="60" y="50" ample="40" alt="50" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Ona Pitarch Gil</nom>
+    <curs>2n Batxillerat</curs>
+  </alumne>
+</fotografia>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1952_festes_sant_pasqual_01</id>
+  <titol>Festes de Sant Pasqual: "bous al carrer" &amp; cercaviles &lt;1952&gt;</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="true">1952</any>
+  <categoria>esdeveniments</categoria>
+  <geolocalitzacio>
+    <latitud>39.93700</latitud>
+    <longitud>-0.10085</longitud>
+    <toponim_historic>Plaça de la Vila</toponim_historic>
+    <carrer_actual>Plaça Major</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Prova de caràcters especials: cometes "dobles", 'simples', &amp; i &lt;angles&gt;. Té exactament les mateixes coordenades que la fitxa de la Plaça de la Vila (1924) per comprovar com s'agrupen els marcadors.</descripcio>
+  <temes>
+    <tema>festes</tema>
+    <tema>Sant Pasqual</tema>
+    <tema>bous</tema>
+  </temes>
+  <alumne>
+    <nom>Àlex Ñúñez D'Ors</nom>
+    <curs>4t ESO C</curs>
+    <centre>IES Professor Broch i Llop</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

@@ -3,3 +3,7 @@ __pycache__/
 *$py.class
 .DS_Store
 Thumbs.db
+
+# Dades personals de l'alumnat (pla d'aula amb noms reals): no publicar a GitHub
+img/plano-asientos-aula-principal.png
+gestion_entregas/entregas/exemple_Juan/

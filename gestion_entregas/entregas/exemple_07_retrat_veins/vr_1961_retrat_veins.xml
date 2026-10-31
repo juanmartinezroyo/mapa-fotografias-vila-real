@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1961_retrat_veins_01</id>
+  <titol>Retrat de grup de veïns</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="true">1961</any>
+  <categoria>personatges</categoria>
+  <geolocalitzacio>
+    <latitud>39.93790</latitud>
+    <longitud>-0.10230</longitud>
+    <toponim_historic>Carrer Major</toponim_historic>
+    <carrer_actual>Carrer Major Sant Jaume</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Prova: molts personatges documentats i diverses persones marcades a la imatge.</descripcio>
+  <temes>
+    <tema>veïnat</tema>
+    <tema>retrat</tema>
+  </temes>
+  <personatges>
+    <personatge>El forner del carrer</personatge>
+    <personatge>La mestra de l'escola</personatge>
+    <personatge>Família de llauradors</personatge>
+    <personatge>Xiquets del barri</personatge>
+    <personatge>El barber</personatge>
+    <personatge>Veïnes del carrer</personatge>
+    <personatge>El rector</personatge>
+    <personatge>Un municipal</personatge>
+  </personatges>
+  <elements_imatge>
+    <element id="elem-1" tipus="persona">
+      <nom>El forner del carrer</nom>
+      <regio x="50" y="52" ample="8" alt="30" />
+    </element>
+    <element id="elem-2" tipus="persona">
+      <nom>La mestra de l'escola</nom>
+      <regio x="58" y="52" ample="8" alt="30" />
+    </element>
+    <element id="elem-3" tipus="persona">
+      <nom>Xiquets del barri</nom>
+      <regio x="66" y="62" ample="10" alt="22" />
+    </element>
+    <element id="elem-4" tipus="persona">
+      <nom>Veïnes del carrer</nom>
+      <regio x="40" y="55" ample="9" alt="28" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Hugo Llorens Cabedo</nom>
+    <curs>4t ESO B</curs>
+    <centre>IES Professor Broch i Llop</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

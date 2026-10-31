@@ -100,10 +100,11 @@
   </elements_imatge>
 
   <!-- ======== DADES DE L'ALUMNE/A ======== -->
-  <!-- OBLIGATORI: Informació de qui aporta la fotografia -->
+  <!-- OBLIGATORI: Informació de qui aporta la fotografia (nom, curs i centre educatiu) -->
   <alumne>
     <nom>Nom i Cognoms de l'Alumne/a</nom>
     <curs>4t ESO B</curs>
+    <centre>Nom del teu institut</centre>
   </alumne>
 
   <!-- ======== PROCEDÈNCIA / DONACIÓ ======== -->

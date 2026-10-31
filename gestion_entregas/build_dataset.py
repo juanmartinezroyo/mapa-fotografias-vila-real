@@ -77,6 +77,7 @@ class ResultatValidacio:
         self.dades = None      # Diccionari amb les dades parseades si és vàlid
         self.alumne_nom = ""
         self.alumne_curs = ""
+        self.alumne_centre = ""
         self.id_foto = ""
 
     @property
@@ -280,16 +281,21 @@ def validar_entrega(carpeta_path):
     alumne_elem = root.find("alumne")
     alumne_nom = ""
     alumne_curs = ""
+    alumne_centre = ""
     if alumne_elem is not None:
         alumne_nom = _text(alumne_elem, "nom")
         alumne_curs = _text(alumne_elem, "curs")
+        alumne_centre = _text(alumne_elem, "centre")
         if not alumne_nom:
             result.afegir_error("El camp <nom> dins <alumne> està buit.")
         if not alumne_curs:
             result.afegir_avis("El camp <curs> dins <alumne> està buit.")
+        if not alumne_centre:
+            result.afegir_avis("Falta el camp <centre> dins <alumne> (nom de l'institut).")
 
     result.alumne_nom = alumne_nom
     result.alumne_curs = alumne_curs
+    result.alumne_centre = alumne_centre
 
     # --- DONANT ---
     donant = _text(root, "donant")
@@ -360,7 +366,8 @@ def validar_entrega(carpeta_path):
             "donant": donant,
             "alumne": {
                 "nom": alumne_nom,
-                "curs": alumne_curs
+                "curs": alumne_curs,
+                "centre": alumne_centre
             }
         }
 
@@ -559,6 +566,8 @@ def generar_informe_html(resultats, data_json_path, informe_path):
             meta_parts.append(f"Alumne/a: <strong>{r.alumne_nom}</strong>")
         if r.alumne_curs:
             meta_parts.append(f"Curs: {r.alumne_curs}")
+        if r.alumne_centre:
+            meta_parts.append(f"Centre: {r.alumne_centre}")
         if r.id_foto:
             meta_parts.append(f"ID: <code>{r.id_foto}</code>")
         meta_str = " · ".join(meta_parts) if meta_parts else "Sense informació de l'alumne/a"
@@ -644,6 +653,20 @@ def main():
             print(f"[ERROR] {len(resultat.errors)} error/s trobat/s")
 
     print()
+
+    # Comprovar identificadors repetits (la web els usa com a clau única)
+    ids_vistos = {}
+    for r in resultats:
+        if r.es_valid and r.id_foto:
+            if r.id_foto in ids_vistos:
+                r.afegir_error(
+                    f"L'identificador '{r.id_foto}' ja l'utilitza l'entrega '{ids_vistos[r.id_foto]}'. "
+                    f"Cada fotografia ha de tenir un <id> únic."
+                )
+                r.dades = None
+                print(f"  [ERROR] {r.carpeta}: id repetit '{r.id_foto}'")
+            else:
+                ids_vistos[r.id_foto] = r.carpeta
 
     # Exportar entregas valides a data.json
     dades_valides = []

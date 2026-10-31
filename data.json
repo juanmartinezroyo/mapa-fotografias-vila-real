@@ -1,5 +1,613 @@
 [
   {
+    "id": "vr_1915_pont_santa_quiteria_01",
+    "lat": 39.9128,
+    "lon": -0.1205,
+    "titulo": "Pont de Santa Quitèria sobre el Millars",
+    "img": "puente_antiguo.jpg",
+    "desc": "Vista del pont d'arcs sobre el riu Millars, pas històric del camí cap a Almassora. Prova: tres elements que se solapen i un que toca les vores de la imatge.",
+    "year": 1915,
+    "year_exacto": true,
+    "categoria": "infraestructura",
+    "tags": [
+      "pont",
+      "riu Millars",
+      "camins"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "altre",
+        "nom": "Pinar de la riba",
+        "descripcio": "Arbres de la vora del riu.",
+        "regio": {
+          "x": 8.0,
+          "y": 28.0,
+          "ample": 88.0,
+          "alt": 18.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "edifici",
+        "nom": "Arcs del pont",
+        "descripcio": "Quatre arcs de pedra sobre el llit del riu.",
+        "regio": {
+          "x": 11.0,
+          "y": 47.0,
+          "ample": 76.0,
+          "alt": 23.0
+        }
+      },
+      {
+        "id": "elem-3",
+        "tipus": "altre",
+        "nom": "Riu Millars",
+        "descripcio": "Element que toca la vora esquerra i inferior.",
+        "regio": {
+          "x": 0.0,
+          "y": 70.0,
+          "ample": 78.0,
+          "alt": 30.0
+        }
+      }
+    ],
+    "lloc": "Pont de Santa Quitèria",
+    "carrer_actual": "Camí del Pont / Riu Millars",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Pau Rubert Mezquita",
+      "curs": "4t ESO A",
+      "centre": "IES Miralcamp"
+    }
+  },
+  {
+    "id": "vr_1930_mercat_porxis_01",
+    "lat": 39.93712,
+    "lon": -0.1007,
+    "titulo": "Dia de mercat als Porxis",
+    "img": "plaza_mayor.jpg",
+    "desc": "Escena de mercat sota els porxis de la plaça. Any aproximat. Prova: sis elements, un de molt xicotet i diversos solapats.",
+    "year": 1930,
+    "year_exacto": false,
+    "categoria": "vida quotidiana",
+    "tags": [
+      "mercat",
+      "porxis",
+      "comerç"
+    ],
+    "personatges": [
+      "Venedors ambulants",
+      "Veïnes comprant"
+    ],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "edifici",
+        "nom": "Porxis",
+        "descripcio": "",
+        "regio": {
+          "x": 5.0,
+          "y": 30.0,
+          "ample": 45.0,
+          "alt": 50.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "persona",
+        "nom": "Grup de venedors",
+        "descripcio": "Persones davant les parades.",
+        "regio": {
+          "x": 52.0,
+          "y": 55.0,
+          "ample": 20.0,
+          "alt": 30.0
+        }
+      },
+      {
+        "id": "elem-3",
+        "tipus": "persona",
+        "nom": "Veïna amb cistella",
+        "descripcio": "",
+        "regio": {
+          "x": 60.0,
+          "y": 60.0,
+          "ample": 6.0,
+          "alt": 18.0
+        }
+      },
+      {
+        "id": "elem-4",
+        "tipus": "objecte",
+        "nom": "Fanal",
+        "descripcio": "Element molt xicotet (2 x 2,5 %).",
+        "regio": {
+          "x": 40.0,
+          "y": 20.0,
+          "ample": 2.0,
+          "alt": 2.5
+        }
+      },
+      {
+        "id": "elem-5",
+        "tipus": "objecte",
+        "nom": "Balcons de ferro",
+        "descripcio": "",
+        "regio": {
+          "x": 55.0,
+          "y": 5.0,
+          "ample": 40.0,
+          "alt": 30.0
+        }
+      },
+      {
+        "id": "elem-6",
+        "tipus": "altre",
+        "nom": "Empedrat de la plaça",
+        "descripcio": "",
+        "regio": {
+          "x": 0.0,
+          "y": 85.0,
+          "ample": 100.0,
+          "alt": 15.0
+        }
+      }
+    ],
+    "lloc": "Plaça de la Vila",
+    "carrer_actual": "Plaça Major",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Laia Broch Ferrer",
+      "curs": "1r Batxillerat B",
+      "centre": "IES Francesc Tàrrega"
+    }
+  },
+  {
+    "id": "vr_1952_festes_sant_pasqual_01",
+    "lat": 39.937,
+    "lon": -0.10085,
+    "titulo": "Festes de Sant Pasqual: \"bous al carrer\" & cercaviles <1952>",
+    "img": "plaza_mayor.jpg",
+    "desc": "Prova de caràcters especials: cometes \"dobles\", 'simples', & i <angles>. Té exactament les mateixes coordenades que la fitxa de la Plaça de la Vila (1924) per comprovar com s'agrupen els marcadors.",
+    "year": 1952,
+    "year_exacto": true,
+    "categoria": "esdeveniments",
+    "tags": [
+      "festes",
+      "Sant Pasqual",
+      "bous"
+    ],
+    "personatges": [],
+    "elements": [],
+    "lloc": "Plaça de la Vila",
+    "carrer_actual": "Plaça Major",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Àlex Ñúñez D'Ors",
+      "curs": "4t ESO C",
+      "centre": "IES Professor Broch i Llop"
+    }
+  },
+  {
+    "id": "vr_1890_cartell_panderola_01",
+    "lat": 39.9396,
+    "lon": -0.0975,
+    "titulo": "Cartell commemoratiu de La Panderola",
+    "img": "Fotos Vila-real.png",
+    "desc": "Imatge quadrada en PNG amb espais al nom del fitxer. Mostra el trenet La Panderola dins d'un marcador decoratiu.",
+    "year": 1890,
+    "year_exacto": false,
+    "categoria": "infraestructura",
+    "tags": [
+      "la panderola",
+      "trenet",
+      "estació"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "vehicle",
+        "nom": "Tramvia La Panderola",
+        "descripcio": "Locomotora vista de front.",
+        "regio": {
+          "x": 36.0,
+          "y": 26.0,
+          "ample": 30.0,
+          "alt": 28.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "objecte",
+        "nom": "Rètol \"Fotos\"",
+        "descripcio": "",
+        "regio": {
+          "x": 36.0,
+          "y": 76.0,
+          "ample": 33.0,
+          "alt": 11.0
+        }
+      }
+    ],
+    "lloc": "Antiga estació del trenet",
+    "carrer_actual": "Avinguda de la Murà",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Marta Gil Usó",
+      "curs": "2n ESO A",
+      "centre": "IES Miralcamp"
+    }
+  },
+  {
+    "id": "vr_1850_fitxa_minima_01",
+    "lat": 39.889,
+    "lon": -0.168,
+    "titulo": "Fitxa mínima (només camps obligatoris)",
+    "img": "puente_antiguo.jpg",
+    "desc": "Prova: any 1850 (límit inferior de la línia temporal), coordenades a la vora del terme, curs buit, sense centre i sense cap camp opcional.",
+    "year": 1850,
+    "year_exacto": true,
+    "categoria": "infraestructura",
+    "tags": [],
+    "personatges": [],
+    "elements": [],
+    "lloc": "",
+    "carrer_actual": "",
+    "donant": "",
+    "alumne": {
+      "nom": "Joan Prova Mínima",
+      "curs": "",
+      "centre": ""
+    }
+  },
+  {
+    "id": "vr_2000_basilica_sant_pasqual_01",
+    "lat": 39.9408,
+    "lon": -0.1062,
+    "titulo": "Entorn de la Basílica de Sant Pasqual",
+    "img": "plaza_mayor.jpg",
+    "desc": "Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. Prova de text llarg i any 2000 (límit superior de la línia temporal). Aquest paràgraf és intencionadament extens per comprovar que la fitxa lateral es pot desplaçar correctament i que el text no desborda el contenidor. \n\nSegon paràgraf: el panell ha de continuar mostrant les seccions de personatges, elements, temes i autoria sense solapaments.",
+    "year": 2000,
+    "year_exacto": true,
+    "categoria": "arquitectura",
+    "tags": [
+      "basílica",
+      "Sant Pasqual",
+      "patrimoni",
+      "religió",
+      "arquitectura",
+      "segle XX",
+      "carrer",
+      "veïnat",
+      "festes",
+      "pelegrinatge",
+      "centre",
+      "història local"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "edifici",
+        "nom": "Façana principal",
+        "descripcio": "",
+        "regio": {
+          "x": 20.0,
+          "y": 10.0,
+          "ample": 60.0,
+          "alt": 70.0
+        }
+      }
+    ],
+    "lloc": "Basílica de Sant Pasqual",
+    "carrer_actual": "Carrer de Sant Pasqual",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Carla Monfort Albiol",
+      "curs": "1r Batxillerat A",
+      "centre": "IES Francesc Tàrrega"
+    }
+  },
+  {
+    "id": "vr_1961_retrat_veins_01",
+    "lat": 39.9379,
+    "lon": -0.1023,
+    "titulo": "Retrat de grup de veïns",
+    "img": "plaza_mayor.jpg",
+    "desc": "Prova: molts personatges documentats i diverses persones marcades a la imatge.",
+    "year": 1961,
+    "year_exacto": true,
+    "categoria": "personatges",
+    "tags": [
+      "veïnat",
+      "retrat"
+    ],
+    "personatges": [
+      "El forner del carrer",
+      "La mestra de l'escola",
+      "Família de llauradors",
+      "Xiquets del barri",
+      "El barber",
+      "Veïnes del carrer",
+      "El rector",
+      "Un municipal"
+    ],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "persona",
+        "nom": "El forner del carrer",
+        "descripcio": "",
+        "regio": {
+          "x": 50.0,
+          "y": 52.0,
+          "ample": 8.0,
+          "alt": 30.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "persona",
+        "nom": "La mestra de l'escola",
+        "descripcio": "",
+        "regio": {
+          "x": 58.0,
+          "y": 52.0,
+          "ample": 8.0,
+          "alt": 30.0
+        }
+      },
+      {
+        "id": "elem-3",
+        "tipus": "persona",
+        "nom": "Xiquets del barri",
+        "descripcio": "",
+        "regio": {
+          "x": 66.0,
+          "y": 62.0,
+          "ample": 10.0,
+          "alt": 22.0
+        }
+      },
+      {
+        "id": "elem-4",
+        "tipus": "persona",
+        "nom": "Veïnes del carrer",
+        "descripcio": "",
+        "regio": {
+          "x": 40.0,
+          "y": 55.0,
+          "ample": 9.0,
+          "alt": 28.0
+        }
+      }
+    ],
+    "lloc": "Carrer Major",
+    "carrer_actual": "Carrer Major Sant Jaume",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Hugo Llorens Cabedo",
+      "curs": "4t ESO B",
+      "centre": "IES Professor Broch i Llop"
+    }
+  },
+  {
+    "id": "vr_1845_riuada_millars_01",
+    "lat": 39.9138,
+    "lon": -0.1236,
+    "titulo": "Riuada del Millars (any anterior a 1850)",
+    "img": "puente_antiguo.jpg",
+    "desc": "Prova: any 1845, vàlid per al validador (1840-2025) però anterior a l'inici de la línia temporal (1850). Ha d'aparéixer igualment al mapa.",
+    "year": 1845,
+    "year_exacto": false,
+    "categoria": "esdeveniments",
+    "tags": [
+      "riu Millars",
+      "riuada"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "altre",
+        "nom": "Nivell de l'aigua",
+        "descripcio": "",
+        "regio": {
+          "x": 0.0,
+          "y": 68.0,
+          "ample": 100.0,
+          "alt": 32.0
+        }
+      }
+    ],
+    "lloc": "El Termet",
+    "carrer_actual": "Paratge del Termet",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Iris Sempere Moles",
+      "curs": "3r ESO A",
+      "centre": "IES Miralcamp"
+    }
+  },
+  {
+    "id": "vr_1972_elements_cantonades_01",
+    "lat": 39.9377,
+    "lon": -0.1018,
+    "titulo": "Arxiprestal: elements a les cantonades",
+    "img": "plaza_mayor.jpg",
+    "desc": "Prova de posició de les targetes: un element ocupa tota la imatge i n'hi ha un a cada cantonada. Un dels elements té un nom i una descripció molt llargs.",
+    "year": 1972,
+    "year_exacto": true,
+    "categoria": "arquitectura",
+    "tags": [
+      "arxiprestal",
+      "església"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "altre",
+        "nom": "Imatge sencera",
+        "descripcio": "Element que ocupa el 100 % de la foto.",
+        "regio": {
+          "x": 0.0,
+          "y": 0.0,
+          "ample": 100.0,
+          "alt": 100.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "objecte",
+        "nom": "Cantonada superior esquerra",
+        "descripcio": "",
+        "regio": {
+          "x": 0.0,
+          "y": 0.0,
+          "ample": 12.0,
+          "alt": 12.0
+        }
+      },
+      {
+        "id": "elem-3",
+        "tipus": "objecte",
+        "nom": "Cantonada superior dreta",
+        "descripcio": "",
+        "regio": {
+          "x": 88.0,
+          "y": 0.0,
+          "ample": 12.0,
+          "alt": 12.0
+        }
+      },
+      {
+        "id": "elem-4",
+        "tipus": "objecte",
+        "nom": "Cantonada inferior esquerra",
+        "descripcio": "",
+        "regio": {
+          "x": 0.0,
+          "y": 88.0,
+          "ample": 12.0,
+          "alt": 12.0
+        }
+      },
+      {
+        "id": "elem-5",
+        "tipus": "edifici",
+        "nom": "Element amb un nom extraordinàriament llarg per comprovar que la targeta no es desborda",
+        "descripcio": "Descripció llarga: la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla. la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla. la targeta flotant ha d'ajustar el text en diverses línies sense eixir de la pantalla.",
+        "regio": {
+          "x": 88.0,
+          "y": 88.0,
+          "ample": 12.0,
+          "alt": 12.0
+        }
+      }
+    ],
+    "lloc": "Arxiprestal de Sant Jaume",
+    "carrer_actual": "Plaça de l'Església",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Nil Cantavella Vives",
+      "curs": "4t ESO A",
+      "centre": "IES Francesc Tàrrega"
+    }
+  },
+  {
+    "id": "vr_2015_horta_nord_01",
+    "lat": 39.955,
+    "lon": -0.085,
+    "titulo": "Camí de l'horta (any posterior a 2000)",
+    "img": "puente_antiguo.jpg",
+    "desc": "Prova: any 2015, posterior al final de la línia temporal (2000); sense topònim ni carrer; format antic sense el camp <centre>.",
+    "year": 2015,
+    "year_exacto": true,
+    "categoria": "vida quotidiana",
+    "tags": [
+      "horta",
+      "tarongers"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "altre",
+        "nom": "Vegetació de ribera",
+        "descripcio": "",
+        "regio": {
+          "x": 60.0,
+          "y": 50.0,
+          "ample": 40.0,
+          "alt": 50.0
+        }
+      }
+    ],
+    "lloc": "",
+    "carrer_actual": "",
+    "donant": "",
+    "alumne": {
+      "nom": "Ona Pitarch Gil",
+      "curs": "2n Batxillerat",
+      "centre": ""
+    }
+  },
+  {
+    "id": "vr_1952_plano_asientos_aula_principal_01",
+    "lat": 39.94187,
+    "lon": -0.0974,
+    "titulo": "Plano asientos aula principal",
+    "img": "plano-asientos-aula-principal.png",
+    "desc": "asdasd",
+    "year": 1952,
+    "year_exacto": true,
+    "categoria": "arquitectura",
+    "tags": [
+      "asd"
+    ],
+    "personatges": [
+      "asd"
+    ],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "persona",
+        "nom": "asd",
+        "descripcio": "asd",
+        "regio": {
+          "x": 15.42,
+          "y": 19.27,
+          "ample": 12.19,
+          "alt": 10.3
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "vehicle",
+        "nom": "asdasd",
+        "descripcio": "asdasd",
+        "regio": {
+          "x": 38.81,
+          "y": 35.13,
+          "ample": 12.94,
+          "alt": 10.71
+        }
+      }
+    ],
+    "lloc": "",
+    "carrer_actual": "",
+    "donant": "asd",
+    "alumne": {
+      "nom": "asd",
+      "curs": "asd",
+      "centre": ""
+    }
+  },
+  {
     "id": "vr_1924_placa_vila_01",
     "lat": 39.937,
     "lon": -0.10085,
@@ -50,7 +658,8 @@
     "donant": "Arxiu Municipal de Vila-real",
     "alumne": {
       "nom": "Sara García Cantavella",
-      "curs": "4t ESO - Projecte Patrimoni"
+      "curs": "4t ESO - Projecte Patrimoni",
+      "centre": "IES Francesc Tàrrega"
     }
   }
 ]

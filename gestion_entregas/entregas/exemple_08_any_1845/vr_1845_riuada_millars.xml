@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1845_riuada_millars_01</id>
+  <titol>Riuada del Millars (any anterior a 1850)</titol>
+  <arxiu_imatge>puente_antiguo.jpg</arxiu_imatge>
+  <any exacte="false">1845</any>
+  <categoria>esdeveniments</categoria>
+  <geolocalitzacio>
+    <latitud>39.91380</latitud>
+    <longitud>-0.12360</longitud>
+    <toponim_historic>El Termet</toponim_historic>
+    <carrer_actual>Paratge del Termet</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Prova: any 1845, vàlid per al validador (1840-2025) però anterior a l'inici de la línia temporal (1850). Ha d'aparéixer igualment al mapa.</descripcio>
+  <temes>
+    <tema>riu Millars</tema>
+    <tema>riuada</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="altre">
+      <nom>Nivell de l'aigua</nom>
+      <regio x="0" y="68" ample="100" alt="32" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Iris Sempere Moles</nom>
+    <curs>3r ESO A</curs>
+    <centre>IES Miralcamp</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidepanelTags = document.getElementById('sidepanel-tags');
   const sidepanelStudent = document.getElementById('sidepanel-student');
   const sidepanelCourse = document.getElementById('sidepanel-course');
+  const sidepanelSchool = document.getElementById('sidepanel-school');
   const sidepanelDonor = document.getElementById('sidepanel-donor');
 
   // Modal d'imatge ampliada
@@ -266,10 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const q = filterText.trim().toLowerCase();
 
     currentFilteredPhotos = allPhotos.filter(photo => {
-      // 1. Filtre d'anys
+      // 1. Filtre d'anys. Si un extrem del slider està al límit (1850 o 2000),
+      // també inclou les fotos anteriors o posteriors (el validador admet 1840-2025).
       const photoYear = photo.year;
       const passYear = (typeof photoYear === 'number')
-        ? (photoYear >= minYearSelected && photoYear <= maxYearSelected)
+        ? ((minYearSelected <= 1850 || photoYear >= minYearSelected) &&
+           (maxYearSelected >= 2000 || photoYear <= maxYearSelected))
         : true;
 
       // 2. Filtre de categoria
@@ -285,7 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const yearMatch = (photo.year ? String(photo.year) : '').includes(q);
         const peopleMatch = Array.isArray(photo.personatges) && photo.personatges.some(p => p.toLowerCase().includes(q));
         const tagsMatch = Array.isArray(photo.tags) && photo.tags.some(t => t.toLowerCase().includes(q));
-        const studentMatch = (photo.alumne && photo.alumne.nom) ? photo.alumne.nom.toLowerCase().includes(q) : false;
+        const studentMatch = photo.alumne
+          ? [photo.alumne.nom, photo.alumne.centre].some(v => (v || '').toLowerCase().includes(q))
+          : false;
         const elementsMatch = Array.isArray(photo.elements) && photo.elements.some(el => (el.nom || '').toLowerCase().includes(q));
 
         passQuery = titleMatch || descMatch || placeMatch || streetMatch || yearMatch || peopleMatch || tagsMatch || studentMatch || elementsMatch;
@@ -458,7 +463,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Secció educativa i d'autoria
     sidepanelStudent.textContent = (photo.alumne && photo.alumne.nom) ? photo.alumne.nom : 'Equip del projecte';
-    sidepanelCourse.textContent = (photo.alumne && photo.alumne.curs) ? photo.alumne.curs : 'IES Vila-real';
+    sidepanelCourse.textContent = (photo.alumne && photo.alumne.curs) ? photo.alumne.curs : 'No indicat';
+    sidepanelSchool.textContent = (photo.alumne && photo.alumne.centre) ? photo.alumne.centre : 'No indicat';
     sidepanelDonor.textContent = photo.donant || 'Fons ciutadà';
 
     // Obrir panell
@@ -788,6 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const formPersonatges = document.getElementById('form-personatges');
   const formAlumneNom = document.getElementById('form-alumne-nom');
   const formAlumneCurs = document.getElementById('form-alumne-curs');
+  const formAlumneCentre = document.getElementById('form-alumne-centre');
   const formDonant = document.getElementById('form-donant');
   const btnPreviewXmlAction = document.getElementById('btn-preview-xml-action');
 
@@ -1059,6 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const personatgesRaw = formPersonatges.value.trim();
     const alumneNom = formAlumneNom.value.trim();
     const alumneCurs = formAlumneCurs.value.trim();
+    const alumneCentre = formAlumneCentre.value.trim();
     const donant = formDonant.value.trim();
 
     // Validacions bàsiques
@@ -1120,6 +1128,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!alumneCurs) {
       alert('⚠️ Introdueix el teu curs o grup (ex: 4t ESO B).');
       formAlumneCurs.focus();
+      return null;
+    }
+
+    if (!alumneCentre) {
+      alert('⚠️ Introdueix el nom del teu centre educatiu (ex: IES Francesc Tàrrega).');
+      formAlumneCentre.focus();
       return null;
     }
 
@@ -1208,6 +1222,7 @@ ${temesBlock}${personatgesBlock}${elementsBlock}  <!-- Dades de l'alumne/a -->
   <alumne>
     <nom>${escapeXml(alumneNom)}</nom>
     <curs>${escapeXml(alumneCurs)}</curs>
+    <centre>${escapeXml(alumneCentre)}</centre>
   </alumne>
 
 ${donantXml}</fotografia>

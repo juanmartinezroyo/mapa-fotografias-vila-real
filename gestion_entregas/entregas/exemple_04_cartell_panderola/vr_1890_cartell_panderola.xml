@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1890_cartell_panderola_01</id>
+  <titol>Cartell commemoratiu de La Panderola</titol>
+  <arxiu_imatge>Fotos Vila-real.png</arxiu_imatge>
+  <any exacte="false">1890</any>
+  <categoria>infraestructura</categoria>
+  <geolocalitzacio>
+    <latitud>39.93960</latitud>
+    <longitud>-0.09750</longitud>
+    <toponim_historic>Antiga estació del trenet</toponim_historic>
+    <carrer_actual>Avinguda de la Murà</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Imatge quadrada en PNG amb espais al nom del fitxer. Mostra el trenet La Panderola dins d'un marcador decoratiu.</descripcio>
+  <temes>
+    <tema>la panderola</tema>
+    <tema>trenet</tema>
+    <tema>estació</tema>
+  </temes>
+  <elements_imatge>
+    <element id="elem-1" tipus="vehicle">
+      <nom>Tramvia La Panderola</nom>
+      <descripcio>Locomotora vista de front.</descripcio>
+      <regio x="36" y="26" ample="30" alt="28" />
+    </element>
+    <element id="elem-2" tipus="objecte">
+      <nom>Rètol "Fotos"</nom>
+      <regio x="36" y="76" ample="33" alt="11" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Marta Gil Usó</nom>
+    <curs>2n ESO A</curs>
+    <centre>IES Miralcamp</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>

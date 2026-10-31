@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLE DE PROVA: dades fictícies per comprovar la web i el validador -->
+<fotografia>
+  <id>vr_1930_mercat_porxis_01</id>
+  <titol>Dia de mercat als Porxis</titol>
+  <arxiu_imatge>plaza_mayor.jpg</arxiu_imatge>
+  <any exacte="false">1930</any>
+  <categoria>vida quotidiana</categoria>
+  <geolocalitzacio>
+    <latitud>39.93712</latitud>
+    <longitud>-0.10070</longitud>
+    <toponim_historic>Plaça de la Vila</toponim_historic>
+    <carrer_actual>Plaça Major</carrer_actual>
+  </geolocalitzacio>
+  <descripcio>Escena de mercat sota els porxis de la plaça. Any aproximat. Prova: sis elements, un de molt xicotet i diversos solapats.</descripcio>
+  <temes>
+    <tema>mercat</tema>
+    <tema>porxis</tema>
+    <tema>comerç</tema>
+  </temes>
+  <personatges>
+    <personatge>Venedors ambulants</personatge>
+    <personatge>Veïnes comprant</personatge>
+  </personatges>
+  <elements_imatge>
+    <element id="elem-1" tipus="edifici">
+      <nom>Porxis</nom>
+      <regio x="5" y="30" ample="45" alt="50" />
+    </element>
+    <element id="elem-2" tipus="persona">
+      <nom>Grup de venedors</nom>
+      <descripcio>Persones davant les parades.</descripcio>
+      <regio x="52" y="55" ample="20" alt="30" />
+    </element>
+    <element id="elem-3" tipus="persona">
+      <nom>Veïna amb cistella</nom>
+      <regio x="60" y="60" ample="6" alt="18" />
+    </element>
+    <element id="elem-4" tipus="objecte">
+      <nom>Fanal</nom>
+      <descripcio>Element molt xicotet (2 x 2,5 %).</descripcio>
+      <regio x="40" y="20" ample="2" alt="2.5" />
+    </element>
+    <element id="elem-5" tipus="objecte">
+      <nom>Balcons de ferro</nom>
+      <regio x="55" y="5" ample="40" alt="30" />
+    </element>
+    <element id="elem-6" tipus="altre">
+      <nom>Empedrat de la plaça</nom>
+      <regio x="0" y="85" ample="100" alt="15" />
+    </element>
+  </elements_imatge>
+  <alumne>
+    <nom>Laia Broch Ferrer</nom>
+    <curs>1r Batxillerat B</curs>
+    <centre>IES Francesc Tàrrega</centre>
+  </alumne>
+  <donant>Fitxa d'exemple (dades de prova)</donant>
+</fotografia>
