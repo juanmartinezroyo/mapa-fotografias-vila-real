@@ -50,6 +50,10 @@
       <regio x="0" y="85" ample="100" alt="15" />
     </element>
   </elements_imatge>
+  <foto_actual any="2026">
+    <arxiu_imatge>plaza_mayor - actual.jpg</arxiu_imatge>
+    <autor>Imatge de prova</autor>
+  </foto_actual>
   <alumne>
     <nom>Laia Broch Ferrer</nom>
     <curs>1r Batxillerat B</curs>

@@ -21,6 +21,9 @@ pot consultar.
   edificis, vehicles o objectes que l'alumnat hi ha marcat. En passar el
   ratolí (o tocar en el mòbil) apareix una targeta amb el nom i la descripció.
   Des de la fitxa lateral es pot fer clic en un element per veure'l ressaltat.
+- **Abans i ara**: si la fitxa té una foto actual del mateix lloc, el botó
+  *⇆ Abans i ara* obri un comparador amb una línia lliscant (ratolí, dit o
+  fletxes del teclat) per veure com ha canviat l'espai.
 
 **Al Creador XML (botó *+ Crear XML*)**
 
@@ -33,6 +36,7 @@ Un espai guiat perquè l'alumnat prepare l'entrega sense escriure XML a mà:
    dibuixar un requadre, li posa nom, tipus (persona, edifici, vehicle,
    objecte o altre) i una descripció. Els requadres es poden moure,
    redimensionar, editar i eliminar.
+   Opcionalment, afegeix una **foto actual** del mateix lloc per al comparador *Abans i ara*.
 4. Descarrega el fitxer XML (o el previsualitza i el copia).
 
 ## Flux de treball a l'aula
@@ -92,6 +96,7 @@ L'estructura oficial està definida a
 | `personatges` | No | Llista de `personatge` |
 | `donant` | No | Procedència de la fotografia |
 | `elements_imatge` | No | Regions marcades sobre la foto (vegeu baix) |
+| `foto_actual` | No | Foto feta hui des del mateix punt: `arxiu_imatge`, `autor` i atribut `any` |
 
 ### Elements identificats a la imatge
 

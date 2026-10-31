@@ -300,6 +300,46 @@ def validar_entrega(carpeta_path):
     # --- DONANT ---
     donant = _text(root, "donant")
 
+    # --- FOTO ACTUAL (COMPARADOR "ABANS I ARA") ---
+    foto_actual = None
+    fa_elem = root.find("foto_actual")
+    if fa_elem is not None:
+        fa_img = _text(fa_elem, "arxiu_imatge")
+        fa_autor = _text(fa_elem, "autor")
+        fa_any_text = fa_elem.get("any", "").strip()
+        fa_any = None
+
+        if not fa_img:
+            result.afegir_error("El bloc <foto_actual> no té el camp <arxiu_imatge>.")
+        elif not fa_img.lower().endswith((".jpg", ".jpeg", ".png")):
+            result.afegir_error(f"La foto actual '{fa_img}' no té una extensió vàlida (.jpg, .jpeg, .png).")
+        elif not (carpeta_path / fa_img).exists():
+            result.afegir_error(f"La foto actual '{fa_img}' no existeix dins la carpeta '{carpeta_name}/'.")
+        else:
+            # Avisar si les proporcions de les dues fotos són molt diferents (el comparador quedaria mal)
+            mida_hist = mida_imatge(carpeta_path / arxiu_imatge) if arxiu_imatge else None
+            mida_ara = mida_imatge(carpeta_path / fa_img)
+            if mida_hist and mida_ara:
+                prop_hist = mida_hist[0] / mida_hist[1]
+                prop_ara = mida_ara[0] / mida_ara[1]
+                if abs(prop_hist - prop_ara) / prop_hist > 0.15:
+                    result.afegir_avis(
+                        f"La foto actual ({mida_ara[0]}x{mida_ara[1]}) i la històrica "
+                        f"({mida_hist[0]}x{mida_hist[1]}) tenen proporcions molt diferents. "
+                        f"El comparador retallarà part de la foto actual."
+                    )
+
+        if fa_any_text:
+            try:
+                fa_any = int(fa_any_text)
+                if fa_any > datetime.now().year or (any_valor and fa_any < any_valor):
+                    result.afegir_avis(f"L'any de la foto actual ({fa_any}) no sembla correcte.")
+            except ValueError:
+                result.afegir_error(f"L'any de la foto actual '{fa_any_text}' no és un número vàlid.")
+
+        if fa_img:
+            foto_actual = {"img": fa_img, "any": fa_any, "autor": fa_autor}
+
     # --- ELEMENTS IMATGE (REGIONS ANOTADES) ---
     elements_llista = []
     elem_root = root.find("elements_imatge")
@@ -361,6 +401,7 @@ def validar_entrega(carpeta_path):
             "tags": temes,
             "personatges": personatges,
             "elements": elements_llista,
+            "foto_actual": foto_actual,
             "lloc": toponim_historic,
             "carrer_actual": carrer_actual,
             "donant": donant,
@@ -372,6 +413,35 @@ def validar_entrega(carpeta_path):
         }
 
     return result
+
+
+def mida_imatge(path):
+    """Retorna (ample, alt) d'una imatge PNG o JPEG llegint la capçalera, o None."""
+    try:
+        with open(path, "rb") as f:
+            data = f.read(64 * 1024)
+    except OSError:
+        return None
+
+    # PNG: l'amplada i l'altura estan al bloc IHDR
+    if data[:8] == b"\x89PNG\r\n\x1a\n" and len(data) >= 24:
+        return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+
+    # JPEG: buscar el marcador SOF (Start Of Frame)
+    if data[:2] == b"\xff\xd8":
+        i = 2
+        while i + 9 < len(data):
+            if data[i] != 0xFF:
+                i += 1
+                continue
+            marker = data[i + 1]
+            if marker in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                alt = int.from_bytes(data[i + 5:i + 7], "big")
+                ample = int.from_bytes(data[i + 7:i + 9], "big")
+                return ample, alt
+            longitud = int.from_bytes(data[i + 2:i + 4], "big")
+            i += 2 + longitud
+    return None
 
 
 def _text(parent, tag):
@@ -680,6 +750,11 @@ def main():
             nom_img = r.dades["img"]
             if copiar_imatge(r.xml_path.parent, nom_img, IMG_DIR):
                 imatges_copiades += 1
+
+            # Copiar també la foto actual (comparador "Abans i ara")
+            if r.dades.get("foto_actual"):
+                if copiar_imatge(r.xml_path.parent, r.dades["foto_actual"]["img"], IMG_DIR):
+                    imatges_copiades += 1
 
     # Escriure data.json
     with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:

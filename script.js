@@ -155,6 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnToggleAnnots = document.getElementById('btn-toggle-annots');
   const btnToggleAnnotsText = document.getElementById('btn-toggle-annots-text');
   const btnToggleAnnotsCount = document.getElementById('btn-toggle-annots-count');
+  const compareBtn = document.getElementById('compare-btn');
+  const compareModal = document.getElementById('compare-modal');
+  const compareStage = document.getElementById('compare-stage');
+  const compareImgBefore = document.getElementById('compare-img-before');
+  const compareImgNow = document.getElementById('compare-img-now');
+  const compareLabelBefore = document.getElementById('compare-label-before');
+  const compareLabelNow = document.getElementById('compare-label-now');
+  const compareHandle = document.getElementById('compare-handle');
+  const compareTitle = document.getElementById('compare-title');
   const sidepanelElementsSection = document.getElementById('sidepanel-elements-section');
   const sidepanelElementsList = document.getElementById('sidepanel-elements-list');
 
@@ -390,6 +399,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sidepanelPlace.textContent = photo.lloc || 'Vila-real';
     sidepanelStreet.textContent = photo.carrer_actual || 'Terme municipal de Vila-real';
+
+    // Botó del comparador "Abans i ara" (només si hi ha foto actual)
+    compareBtn.hidden = !(photo.foto_actual && photo.foto_actual.img);
 
     // Enllaç a Street View / Google Maps
     if (photo.lat && photo.lon) {
@@ -639,6 +651,78 @@ document.addEventListener('DOMContentLoaded', () => {
     box.classList.add('flash');
   }
 
+  // 10.2. Comparador "Abans i ara": la foto històrica (retallada amb clip-path)
+  // queda damunt de l'actual i una línia vertical marca on es talla.
+  let compareDragging = false;
+
+  function setComparePos(pct) {
+    const pos = Math.min(100, Math.max(0, pct));
+    compareStage.style.setProperty('--pos', pos + '%');
+    compareHandle.setAttribute('aria-valuenow', String(Math.round(pos)));
+  }
+
+  function openCompareModal() {
+    const photo = currentActivePhoto;
+    if (!photo || !photo.foto_actual) return;
+    const ara = photo.foto_actual;
+
+    compareImgBefore.src = 'img/' + photo.img;
+    compareImgBefore.onerror = () => { compareImgBefore.src = 'img/fallback.jpg'; };
+    compareImgNow.src = 'img/' + ara.img;
+    compareImgNow.onerror = () => { compareImgNow.src = 'img/fallback.jpg'; };
+
+    compareTitle.textContent = photo.titulo;
+    compareLabelBefore.textContent = photo.year ? `Abans · ${photo.year}` : 'Abans';
+    compareLabelNow.textContent = ara.any ? `Ara · ${ara.any}` : 'Ara';
+    compareImgNow.title = ara.autor ? `Foto actual: ${ara.autor}` : '';
+
+    setComparePos(50);
+    compareModal.classList.add('active');
+    compareModal.setAttribute('aria-hidden', 'false');
+    compareHandle.focus();
+  }
+
+  function closeCompareModal() {
+    compareModal.classList.remove('active');
+    compareModal.setAttribute('aria-hidden', 'true');
+    compareDragging = false;
+  }
+
+  function comparePosFromEvent(e) {
+    const rect = compareStage.getBoundingClientRect();
+    setComparePos((e.clientX - rect.left) / rect.width * 100);
+  }
+
+  compareBtn.addEventListener('click', openCompareModal);
+  document.getElementById('compare-close').addEventListener('click', closeCompareModal);
+  document.getElementById('compare-backdrop').addEventListener('click', closeCompareModal);
+
+  // Arrossegar amb ratolí o dit (també un simple clic mou la línia)
+  compareStage.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    compareDragging = true;
+    compareStage.setPointerCapture(e.pointerId);
+    comparePosFromEvent(e);
+  });
+  compareStage.addEventListener('pointermove', (e) => {
+    if (compareDragging) comparePosFromEvent(e);
+  });
+  compareStage.addEventListener('pointerup', () => { compareDragging = false; });
+  compareStage.addEventListener('pointercancel', () => { compareDragging = false; });
+
+  // Teclat: fletxes (2 %), Maj + fletxes (10 %), Inici / Fi
+  compareHandle.addEventListener('keydown', (e) => {
+    const actual = parseFloat(compareHandle.getAttribute('aria-valuenow')) || 50;
+    const pas = e.shiftKey ? 10 : 2;
+    if (e.key === 'ArrowLeft') setComparePos(actual - pas);
+    else if (e.key === 'ArrowRight') setComparePos(actual + pas);
+    else if (e.key === 'Home') setComparePos(0);
+    else if (e.key === 'End') setComparePos(100);
+    else return;
+    e.preventDefault();
+  });
+
   // Clic sobre la imatge (fora dels requadres) -> tancar targeta fixada
   modalAnnotViewer.addEventListener('click', () => {
     if (pinnedAnnotId) hideAnnotTooltip(true);
@@ -647,7 +731,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Tancar amb tecla Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (modal.classList.contains('active')) {
+      if (compareModal.classList.contains('active')) {
+        closeCompareModal();
+      } else if (modal.classList.contains('active')) {
         window.cerrarModalImagen();
       } else if (sidepanel.classList.contains('open')) {
         closePhotoDetails();
@@ -796,6 +882,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const formAlumneCurs = document.getElementById('form-alumne-curs');
   const formAlumneCentre = document.getElementById('form-alumne-centre');
   const formDonant = document.getElementById('form-donant');
+  const formNowFile = document.getElementById('form-now-file');
+  const formNowFilename = document.getElementById('form-now-filename');
+  const formNowAny = document.getElementById('form-now-any');
+  const formNowAutor = document.getElementById('form-now-autor');
+  const nowPreview = document.getElementById('now-preview');
+  const nowPreviewBefore = document.getElementById('now-preview-before');
+  const nowPreviewAfter = document.getElementById('now-preview-after');
+  const btnRemoveNowFile = document.getElementById('btn-remove-now-file');
   const btnPreviewXmlAction = document.getElementById('btn-preview-xml-action');
 
   // Elements del modal de previsualització / descàrrega
@@ -1022,6 +1116,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 13.4b. Foto actual (comparador "Abans i ara"): vista prèvia al costat de la històrica
+  formNowFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    formNowFilename.value = file.name;
+    if (!formNowAny.value) formNowAny.value = new Date().getFullYear();
+    if (!formNowAutor.value && formAlumneNom.value.trim()) formNowAutor.value = formAlumneNom.value.trim();
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      nowPreviewAfter.src = event.target.result;
+      nowPreviewBefore.src = imagePreviewThumb.src || 'img/fallback.jpg';
+      nowPreview.style.display = 'flex';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  btnRemoveNowFile.addEventListener('click', () => {
+    formNowFile.value = '';
+    formNowFilename.value = '';
+    nowPreviewAfter.src = '';
+    nowPreview.style.display = 'none';
+  });
+
   // Suggeriment automàtic de nom de fitxer en escriure any i títol
   function updateSuggestedFilename() {
     if (formFilename.dataset.manualEdit === 'true') return;
@@ -1113,6 +1232,23 @@ document.addEventListener('DOMContentLoaded', () => {
       return null;
     }
 
+    const nowFilename = formNowFilename.value.trim();
+    const nowAny = parseInt(formNowAny.value.trim(), 10);
+    const nowAutor = formNowAutor.value.trim();
+
+    if (nowFilename) {
+      if (!nowFilename.match(/\.(jpg|jpeg|png)$/i)) {
+        alert("⚠️ La foto actual ha de tenir una extensió vàlida: .jpg, .jpeg o .png");
+        formNowFilename.focus();
+        return null;
+      }
+      if (nowFilename === filename) {
+        alert('⚠️ La foto actual ha de tenir un nom d\'arxiu diferent de la foto històrica.');
+        formNowFilename.focus();
+        return null;
+      }
+    }
+
     if (annotEditor.style.display !== 'none') {
       alert('⚠️ Tens un element de la imatge sense guardar. Prem "Guardar element" o "Cancel·lar" abans de generar el XML.');
       annotEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1181,6 +1317,18 @@ document.addEventListener('DOMContentLoaded', () => {
         '\n  </elements_imatge>\n\n';
     }
 
+    // Processar foto actual (comparador "Abans i ara")
+    let fotoActualBlock = '';
+    if (nowFilename) {
+      const anyAttr = isNaN(nowAny) ? '' : ` any="${nowAny}"`;
+      const autorXml = nowAutor ? `    <autor>${escapeXml(nowAutor)}</autor>\n` : '';
+      fotoActualBlock = '  <!-- Foto actual del mateix lloc (comparador "Abans i ara") -->\n' +
+        `  <foto_actual${anyAttr}>\n` +
+        `    <arxiu_imatge>${escapeXml(nowFilename)}</arxiu_imatge>\n` +
+        autorXml +
+        '  </foto_actual>\n\n';
+    }
+
     // Processar camps opcionals
     const toponimXml = toponim ? `    <toponim_historic>${escapeXml(toponim)}</toponim_historic>\n` : '';
     const carrerXml = carrer ? `    <carrer_actual>${escapeXml(carrer)}</carrer_actual>\n` : '';
@@ -1218,7 +1366,7 @@ ${toponimXml}${carrerXml}  </geolocalitzacio>
   <!-- Context històric -->
   <descripcio>${escapeXml(descripcio)}</descripcio>
 
-${temesBlock}${personatgesBlock}${elementsBlock}  <!-- Dades de l'alumne/a -->
+${temesBlock}${personatgesBlock}${elementsBlock}${fotoActualBlock}  <!-- Dades de l'alumne/a -->
   <alumne>
     <nom>${escapeXml(alumneNom)}</nom>
     <curs>${escapeXml(alumneCurs)}</curs>
@@ -1232,7 +1380,7 @@ ${donantXml}</fotografia>
     return {
       xml: xml,
       filename: currentGeneratedFilename,
-      imgName: filename
+      imgName: nowFilename ? `${filename} i ${nowFilename}` : filename
     };
   }
 

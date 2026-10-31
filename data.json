@@ -53,6 +53,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Pont de Santa Quitèria",
     "carrer_actual": "Camí del Pont / Riu Millars",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -155,6 +156,11 @@
         }
       }
     ],
+    "foto_actual": {
+      "img": "plaza_mayor - actual.jpg",
+      "any": 2026,
+      "autor": "Imatge de prova"
+    },
     "lloc": "Plaça de la Vila",
     "carrer_actual": "Plaça Major",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -181,6 +187,7 @@
     ],
     "personatges": [],
     "elements": [],
+    "foto_actual": null,
     "lloc": "Plaça de la Vila",
     "carrer_actual": "Plaça Major",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -232,6 +239,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Antiga estació del trenet",
     "carrer_actual": "Avinguda de la Murà",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -254,6 +262,7 @@
     "tags": [],
     "personatges": [],
     "elements": [],
+    "foto_actual": null,
     "lloc": "",
     "carrer_actual": "",
     "donant": "",
@@ -302,6 +311,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Basílica de Sant Pasqual",
     "carrer_actual": "Carrer de Sant Pasqual",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -385,6 +395,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Carrer Major",
     "carrer_actual": "Carrer Major Sant Jaume",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -423,6 +434,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "El Termet",
     "carrer_actual": "Paratge del Termet",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -509,6 +521,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Arxiprestal de Sant Jaume",
     "carrer_actual": "Plaça de l'Església",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -547,6 +560,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "",
     "carrer_actual": "",
     "donant": "",
@@ -610,6 +624,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Pont de Santa Quitèria",
     "carrer_actual": "Camí del Pont / Riu Millars",
     "donant": "Fitxa d'exemple (dades de prova)",
@@ -635,6 +650,7 @@
     ],
     "personatges": [],
     "elements": [],
+    "foto_actual": null,
     "lloc": "Antiga Estació del Trenet",
     "carrer_actual": "Avinguda de la Murà",
     "donant": "Arxiu de la memòria oral de la Plana",
@@ -686,6 +702,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "",
     "carrer_actual": "",
     "donant": "asd",
@@ -741,6 +758,7 @@
         }
       }
     ],
+    "foto_actual": null,
     "lloc": "Plaça de la Vila (Els Porxis)",
     "carrer_actual": "Plaça Major / Plaça de la Vila",
     "donant": "Arxiu Municipal de Vila-real",

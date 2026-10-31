@@ -99,6 +99,14 @@
     </element>
   </elements_imatge>
 
+  <!-- ======== FOTO ACTUAL (ABANS I ARA) ======== -->
+  <!-- OPCIONAL: Foto feta hui des del mateix punt i amb el mateix enquadrament -->
+  <!-- Ha d'estar a la mateixa carpeta. L'atribut "any" és l'any en què l'has feta -->
+  <foto_actual any="2026">
+    <arxiu_imatge>vr_1925_placa_major_ara.jpg</arxiu_imatge>
+    <autor>Nom de qui ha fet la foto</autor>
+  </foto_actual>
+
   <!-- ======== DADES DE L'ALUMNE/A ======== -->
   <!-- OBLIGATORI: Informació de qui aporta la fotografia (nom, curs i centre educatiu) -->
   <alumne>

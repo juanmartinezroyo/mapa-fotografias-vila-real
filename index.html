@@ -159,6 +159,10 @@
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
             <span>Ampliar</span>
           </button>
+          <button id="compare-btn" class="floating-compare-btn" title="Comparar amb una foto actual del mateix lloc" hidden>
+            <span aria-hidden="true">⇆</span>
+            <span>Abans i ara</span>
+          </button>
         </div>
 
         <h2 id="sidepanel-title" class="sidepanel-title">Títol de la fotografia</h2>
@@ -245,6 +249,30 @@
           <div class="modal-caption">
             <h3 id="modal-caption-title">Títol</h3>
             <span id="modal-caption-year">Any</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparador "Abans i ara" (foto històrica sobre foto actual) -->
+    <div class="modal" id="compare-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="compare-title">
+      <div class="modal-backdrop" id="compare-backdrop"></div>
+      <div class="modal-wrapper">
+        <button class="modal-close-btn" id="compare-close" title="Tancar (ESC)">&times;</button>
+        <div class="modal-figure">
+          <div id="compare-stage" class="compare-stage">
+            <img id="compare-img-before" class="compare-img-before" src="" alt="Fotografia històrica" draggable="false" />
+            <img id="compare-img-now" class="compare-img-now" src="" alt="Fotografia actual del mateix lloc" draggable="false" />
+            <span id="compare-label-before" class="compare-label compare-label-before">Abans</span>
+            <span id="compare-label-now" class="compare-label compare-label-now">Ara</span>
+            <div id="compare-handle" class="compare-handle" role="slider" tabindex="0"
+                 aria-label="Posició del comparador" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <span class="compare-knob" aria-hidden="true">⇆</span>
+            </div>
+          </div>
+          <div class="modal-caption">
+            <h3 id="compare-title">Títol</h3>
+            <span id="compare-hint">Arrossega la línia per comparar abans i ara</span>
           </div>
         </div>
       </div>
@@ -421,6 +449,48 @@
                     <option value="esdeveniments">🎉 Esdeveniments (festes patronals, bous, actes)</option>
                     <option value="personatges">👥 Personatges (retrats, veïns històrics, grups)</option>
                   </select>
+                </div>
+
+                <!-- Foto actual per al comparador "Abans i ara" -->
+                <div class="now-photo-box">
+                  <div class="now-photo-head">
+                    <strong>⇆ Foto actual del mateix lloc</strong>
+                    <span class="optional-tag">opcional</span>
+                  </div>
+                  <p class="field-help">Situa't al mateix punt i intenta repetir l'enquadrament de la foto antiga. A la web es podran comparar amb un control lliscant.</p>
+
+                  <div class="form-field">
+                    <input type="file" id="form-now-file" accept="image/jpeg,image/png,image/jpg" class="file-input-hidden" />
+                    <button type="button" class="btn-browse-file" onclick="document.getElementById('form-now-file').click()">📷 Tria la foto actual</button>
+                  </div>
+
+                  <div id="now-preview" class="now-preview" style="display: none;">
+                    <figure>
+                      <img id="now-preview-before" src="" alt="Foto històrica" />
+                      <figcaption>Abans</figcaption>
+                    </figure>
+                    <figure>
+                      <img id="now-preview-after" src="" alt="Foto actual" />
+                      <figcaption>Ara</figcaption>
+                    </figure>
+                    <button type="button" id="btn-remove-now-file" class="btn-remove-file" title="Treure la foto actual">&times;</button>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="form-now-filename">Nom de l'arxiu de la foto actual</label>
+                    <input type="text" id="form-now-filename" placeholder="Ex: vr_1925_placa_major_ara.jpg" />
+                  </div>
+
+                  <div class="form-grid-2">
+                    <div class="form-field">
+                      <label for="form-now-any">Any de la foto actual</label>
+                      <input type="number" id="form-now-any" min="1840" max="2100" placeholder="Ex: 2026" />
+                    </div>
+                    <div class="form-field">
+                      <label for="form-now-autor">Qui l'ha feta</label>
+                      <input type="text" id="form-now-autor" placeholder="Ex: Laura Bellmunt" />
+                    </div>
+                  </div>
                 </div>
               </div>
 

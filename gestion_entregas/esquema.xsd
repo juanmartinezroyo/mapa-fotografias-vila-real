@@ -96,6 +96,17 @@
         <!-- Donant / Procedència: opcional -->
         <xs:element name="donant" type="xs:string" minOccurs="0" />
 
+        <!-- Foto actual del mateix punt (comparador "Abans i ara"): opcional -->
+        <xs:element name="foto_actual" minOccurs="0">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="arxiu_imatge" type="xs:string" />
+              <xs:element name="autor" type="xs:string" minOccurs="0" />
+            </xs:all>
+            <xs:attribute name="any" type="xs:integer" use="optional" />
+          </xs:complexType>
+        </xs:element>
+
         <!-- Elements / Regions anotades en la imatge: opcional -->
         <xs:element name="elements_imatge" minOccurs="0">
           <xs:complexType>
