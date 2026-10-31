@@ -28,6 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Afegir control de zoom a la cantonada inferior dreta per no interferir amb el header
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
+  // Els controls superiors flotants tapen una franja del mapa: desplacem el
+  // centre inicial perquè quede centrat en l'àrea lliure de davall.
+  const topUi = document.getElementById('top-ui');
+  map.panBy([0, -Math.round(topUi.offsetHeight / 2)], { animate: false });
+
+  // Exposem l'alçada dels controls superiors com a variable CSS (la galeria la
+  // fa servir per no quedar tapada). Canvia en mòbil en desplegar els filtres.
+  function updateTopUiHeight() {
+    const bottom = Math.round(topUi.getBoundingClientRect().bottom);
+    document.documentElement.style.setProperty('--top-ui-height', bottom + 'px');
+  }
+  updateTopUiHeight();
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(updateTopUiHeight).observe(topUi);
+  } else {
+    window.addEventListener('resize', updateTopUiHeight);
+  }
+
   // Definició de capes base (sense necessitat de clau d'API)
   const tileLayers = {
     osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -122,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const minYearDisplay = document.getElementById('min-year-display');
   const maxYearDisplay = document.getElementById('max-year-display');
   const btnResetFilters = document.getElementById('btn-reset-filters');
+  const controlPanel = document.getElementById('control-panel');
+  const btnToggleFilters = document.getElementById('btn-toggle-filters');
 
   // Panell Lateral (Ficha)
   const sidepanel = document.getElementById('sidepanel');
@@ -310,6 +330,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Actualitzar comptador
     visibleCountEl.textContent = currentFilteredPhotos.length;
+
+    // Botó de restablir només visible si hi ha algun filtre actiu; en mòbil, el
+    // botó "Filtres" mostra un punt si hi ha categoria o període aplicats.
+    const hasCatOrYear = (filterCategory && filterCategory !== 'totes') ||
+      minYearSelected > 1850 || maxYearSelected < 2000;
+    btnResetFilters.classList.toggle('is-visible', Boolean(q) || hasCatOrYear);
+    btnToggleFilters.classList.toggle('has-active', hasCatOrYear);
 
     // Actualitzar marcadors en el mapa
     markerClusterGroup.clearLayers();
@@ -794,6 +821,13 @@ document.addEventListener('DOMContentLoaded', () => {
   categoriaSelect.addEventListener('change', (e) => {
     filterCategory = e.target.value;
     aplicarFiltros();
+  });
+
+  // Mòbil: mostrar/amagar la fila de filtres
+  btnToggleFilters.addEventListener('click', () => {
+    const open = controlPanel.classList.toggle('filters-open');
+    btnToggleFilters.setAttribute('aria-expanded', String(open));
+    btnToggleFilters.title = open ? 'Amagar filtres' : 'Mostrar filtres';
   });
 
   // Botó de restablir tots els filtres
