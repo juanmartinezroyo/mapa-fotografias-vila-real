@@ -557,6 +557,94 @@
     }
   },
   {
+    "id": "vr_1915_pont_ia",
+    "lat": 39.91285,
+    "lon": -0.12055,
+    "titulo": "Pont de Santa Quitèria sobre el Millars",
+    "img": "puente_antiguo1.jpg",
+    "desc": "Vista del pont d'arcs sobre el riu Millars, pas històric del camí cap a Almassora. Prova: tres elements que se solapen i un que toca les vores de la imatge.",
+    "year": 1915,
+    "year_exacto": true,
+    "categoria": "infraestructura",
+    "tags": [
+      "pont",
+      "riu Millars",
+      "camins"
+    ],
+    "personatges": [],
+    "elements": [
+      {
+        "id": "elem-1",
+        "tipus": "altre",
+        "nom": "Pinar de la riba",
+        "descripcio": "Arbres de la vora del riu.",
+        "regio": {
+          "x": 8.0,
+          "y": 28.0,
+          "ample": 88.0,
+          "alt": 18.0
+        }
+      },
+      {
+        "id": "elem-2",
+        "tipus": "edifici",
+        "nom": "Arcs del pont",
+        "descripcio": "Quatre arcs de pedra sobre el llit del riu.",
+        "regio": {
+          "x": 11.0,
+          "y": 47.0,
+          "ample": 76.0,
+          "alt": 23.0
+        }
+      },
+      {
+        "id": "elem-3",
+        "tipus": "altre",
+        "nom": "Riu Millars",
+        "descripcio": "Element que toca la vora esquerra i inferior.",
+        "regio": {
+          "x": 0.0,
+          "y": 70.0,
+          "ample": 78.0,
+          "alt": 30.0
+        }
+      }
+    ],
+    "lloc": "Pont de Santa Quitèria",
+    "carrer_actual": "Camí del Pont / Riu Millars",
+    "donant": "Fitxa d'exemple (dades de prova)",
+    "alumne": {
+      "nom": "Pau Rubert Mezquita",
+      "curs": "4t ESO A",
+      "centre": "IES Miralcamp"
+    }
+  },
+  {
+    "id": "vr_1938_panderola_02",
+    "lat": 39.9385,
+    "lon": -0.0987,
+    "titulo": "La Panderola a l'Estació",
+    "img": "0_13976_1_bis.jpg",
+    "desc": "",
+    "year": 1938,
+    "year_exacto": true,
+    "categoria": "infraestructura",
+    "tags": [
+      "la panderola",
+      "trenet"
+    ],
+    "personatges": [],
+    "elements": [],
+    "lloc": "Antiga Estació del Trenet",
+    "carrer_actual": "Avinguda de la Murà",
+    "donant": "Arxiu de la memòria oral de la Plana",
+    "alumne": {
+      "nom": "Aitana Bellmunt Llorens",
+      "curs": "4t ESO C",
+      "centre": ""
+    }
+  },
+  {
     "id": "vr_1952_plano_asientos_aula_principal_01",
     "lat": 39.94187,
     "lon": -0.0974,
