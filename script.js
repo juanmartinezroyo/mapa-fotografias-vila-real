@@ -883,6 +883,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const bstep1 = document.getElementById('bstep-1');
   const bstep2 = document.getElementById('bstep-2');
   const bstep3 = document.getElementById('bstep-3');
+  const bubbleToggle = document.getElementById('bubble-toggle');
+
+  // Plegar/desplegar la burbuja d'instruccions fent clic al pin
+  function setBubbleCollapsed(collapsed) {
+    creatorBubble.classList.toggle('collapsed', collapsed);
+    if (!collapsed) creatorBubble.classList.remove('has-unread');
+    bubbleToggle.setAttribute('aria-expanded', String(!collapsed));
+    bubbleToggle.title = collapsed ? 'Mostrar instruccions' : 'Amagar instruccions';
+  }
+
+  bubbleToggle.addEventListener('click', () => {
+    setBubbleCollapsed(!creatorBubble.classList.contains('collapsed'));
+  });
+
+  // Si la burbuja està plegada quan canvia de pas, marquem el pin amb un punt
+  function markBubbleUpdated() {
+    if (creatorBubble.classList.contains('collapsed')) {
+      creatorBubble.classList.add('has-unread');
+    }
+  }
 
   // Elements d'estat de coordenades
   const coordsStatusBox = document.getElementById('coords-status-box');
@@ -1058,6 +1078,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bstep1.classList.add('done');
     bstep1.classList.remove('active');
     bstep2.classList.add('active');
+    markBubbleUpdated();
   }
 
   // Botó de recentrar el mapa en la posició seleccionada
@@ -1449,6 +1470,7 @@ ${donantXml}</fotografia>
     bstep2.classList.add('done');
     bstep2.classList.remove('active');
     bstep3.classList.add('active', 'done');
+    markBubbleUpdated();
 
     // Obrir modal amb missatge d'èxit i previsualització del codi
     openXmlModal(data.xml, data.filename, data.imgName, true);

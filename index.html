@@ -318,9 +318,11 @@
           <!-- Burbuja d'instruccions interactiva -->
           <div id="creator-instructions-bubble" class="creator-bubble">
             <div class="bubble-header">
-              <div class="bubble-icon-wrap">
-                <span class="bubble-icon">📍</span>
-              </div>
+              <button type="button" id="bubble-toggle" class="bubble-icon-wrap" aria-expanded="true" aria-controls="creator-instructions-bubble" title="Amagar instruccions">
+                <span class="bubble-icon" aria-hidden="true">📍</span>
+                <span class="sr-only">Mostrar o amagar instruccions</span>
+                <span class="bubble-unread-dot" aria-hidden="true"></span>
+              </button>
               <div class="bubble-title-group">
                 <span class="bubble-step-badge" id="bubble-step-badge">Pas 1 de 3</span>
                 <h4 id="bubble-title">Selecciona el lloc al mapa</h4>
