@@ -1,0 +1,706 @@
+/* ==========================================================================
+   PÀGINA "SOBRE EL PROJECTE" (projecte.html)
+   Reutilitza les variables de style.css (colors, tipografies, ombres).
+   ========================================================================== */
+
+/* style.css bloqueja el scroll per al mapa: aquí el tornem a activar */
+html, body.page-projecte {
+  height: auto;
+  overflow: visible;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
+.page-projecte {
+  background: var(--color-bg-base);
+  color: var(--color-text-main);
+  line-height: 1.65;
+}
+
+.page-projecte a {
+  color: inherit;
+}
+
+.pj-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- Elements comuns --- */
+.pj-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+}
+
+.pj-rule {
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-gold));
+}
+
+.pj-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.pj-btn:hover {
+  transform: translateY(-2px);
+}
+
+.page-projecte .pj-btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(167, 69, 38, 0.35);
+}
+
+.pj-btn-primary:hover {
+  box-shadow: 0 12px 28px rgba(167, 69, 38, 0.45);
+}
+
+.page-projecte .pj-btn-ghost {
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.pj-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.page-projecte .pj-btn-ghost-dark {
+  color: var(--color-primary-dark);
+  border: 1.5px solid var(--color-primary);
+}
+
+.pj-btn-ghost-dark:hover {
+  background: var(--color-primary-light);
+}
+
+/* ==========================================================================
+   BARRA SUPERIOR
+   ========================================================================== */
+.pj-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 60px;
+  padding: 0 24px;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-border-glass);
+}
+
+.pj-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-primary-dark) !important;
+  transition: background var(--transition-fast);
+}
+
+.pj-back:hover {
+  background: var(--color-primary-light);
+}
+
+.pj-back svg {
+  transition: transform var(--transition-fast);
+}
+
+.pj-back:hover svg {
+  transform: translateX(-3px);
+}
+
+.pj-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.pj-nav a {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.pj-nav a:hover {
+  color: var(--color-primary-dark);
+  background: rgba(167, 69, 38, 0.07);
+}
+
+.pj-topbar-brand {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.pj-hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 24px 80px;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+}
+
+.pj-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(115deg, rgba(40, 18, 10, 0.88) 0%, rgba(110, 42, 20, 0.7) 45%, rgba(30, 20, 12, 0.35) 100%),
+    url("img/puente_antiguo.jpg") center / cover no-repeat;
+  filter: sepia(0.25);
+  transform: scale(1.04);
+}
+
+.pj-hero-content {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.pj-hero .pj-eyebrow {
+  color: #f2cf8a;
+}
+
+.pj-hero-title {
+  margin: 14px 0 22px;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+.pj-hero-lead {
+  max-width: 520px;
+  margin-top: 22px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pj-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.pj-scroll-hint {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: #fff !important;
+  animation: pj-bounce 2.2s ease-in-out infinite;
+}
+
+@keyframes pj-bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 6px); }
+}
+
+/* ==========================================================================
+   SECCIONS
+   ========================================================================== */
+.pj-section {
+  padding: 96px 0;
+}
+
+.pj-section-alt {
+  background:
+    radial-gradient(circle at 10% 0%, var(--color-accent-gold-light), transparent 45%),
+    radial-gradient(circle at 100% 100%, var(--color-primary-light), transparent 40%),
+    #fbfaf6;
+  border-top: 1px solid var(--color-border-glass);
+  border-bottom: 1px solid var(--color-border-glass);
+}
+
+.pj-section-head {
+  margin-bottom: 52px;
+}
+
+.pj-section-title {
+  margin: 10px 0 18px;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary-dark);
+}
+
+/* --- Sobre el projecte --- */
+.pj-about {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.pj-about-text p + p {
+  margin-top: 16px;
+}
+
+.pj-about-text p {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+}
+
+.pj-about-text .pj-lead {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.4;
+  color: var(--color-text-main);
+}
+
+.pj-lead strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.pj-pillars {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pj-pillar {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid var(--color-border-glass);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.pj-pillar:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.pj-pillar-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent-gold-light));
+}
+
+.pj-pillar h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.pj-pillar p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* --- Passos (línia de temps) --- */
+.pj-steps {
+  list-style: none;
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.pj-steps::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 23px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-primary), var(--color-accent-gold));
+  opacity: 0.35;
+}
+
+.pj-step {
+  position: relative;
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.pj-step + .pj-step {
+  margin-top: 22px;
+}
+
+.pj-step-num {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  box-shadow: 0 0 0 6px #fbfaf6, 0 6px 16px rgba(167, 69, 38, 0.3);
+}
+
+.pj-step-optional .pj-step-num {
+  color: var(--color-accent-gold);
+  background: #fff;
+  border: 2px dashed var(--color-accent-gold);
+  box-shadow: 0 0 0 6px #fbfaf6;
+}
+
+.pj-step-card {
+  flex: 1;
+  padding: 20px 24px;
+  background: #fff;
+  border: 1px solid var(--color-border-glass);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.pj-step-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.pj-step-card h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.pj-step-card p {
+  color: var(--color-text-muted);
+}
+
+.pj-step-card p + p {
+  margin-top: 8px;
+}
+
+.pj-badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a6416;
+  background: var(--color-accent-gold-light);
+  border: 1px solid rgba(184, 134, 40, 0.35);
+}
+
+/* Rèplica del botó blau "+ Crear XML" del mapa */
+.pj-xml-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 11px;
+  margin: 0 2px;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #fff;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+  vertical-align: 1px;
+}
+
+.pj-xml-plus {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pj-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.pj-tags li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-light);
+}
+
+.pj-folder {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82rem;
+  background: #f4f2ec;
+  border: 1px solid var(--color-border-glass);
+}
+
+.pj-folder-name {
+  font-weight: 700;
+}
+
+.pj-folder-file {
+  padding-left: 22px;
+  color: var(--color-text-muted);
+}
+
+.pj-folder-file::before {
+  content: "└ ";
+  color: var(--color-text-light);
+}
+
+.pj-cta {
+  margin-top: 52px;
+  text-align: center;
+}
+
+/* --- Qui som --- */
+.pj-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 320px));
+  justify-content: center;
+  gap: 28px;
+}
+
+.pj-person {
+  padding: 32px 28px 30px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--color-border-glass);
+  border-radius: 22px;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.pj-person:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pj-person-photo {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-gold));
+}
+
+.pj-person-photo img,
+.pj-person-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent-gold-light));
+}
+
+.pj-person-placeholder {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.pj-person-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.pj-person-text {
+  margin-top: 14px;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   PEU
+   ========================================================================== */
+.pj-footer {
+  padding: 40px 0;
+  background: #fff;
+  border-top: 1px solid var(--color-border-glass);
+}
+
+.pj-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pj-footer-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.pj-footer-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .pj-nav {
+    display: none;
+  }
+
+  .pj-about {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .pj-topbar {
+    padding: 0 12px;
+  }
+
+  .pj-topbar-brand {
+    font-size: 0.92rem;
+  }
+
+  .pj-hero {
+    min-height: 86vh;
+    padding: 100px 4px 80px;
+  }
+
+  .pj-section {
+    padding: 68px 0;
+  }
+
+  .pj-section-head {
+    margin-bottom: 36px;
+  }
+
+  .pj-container {
+    padding: 0 18px;
+  }
+
+  .pj-steps::before {
+    left: 19px;
+  }
+
+  .pj-step {
+    gap: 14px;
+  }
+
+  .pj-step-num {
+    width: 40px;
+    height: 40px;
+    font-size: 1.05rem;
+  }
+
+  .pj-step-card {
+    padding: 16px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .pj-scroll-hint {
+    animation: none;
+  }
+
+  .page-projecte *,
+  .page-projecte *::before {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .pj-topbar-brand {
+    display: none;
+  }
+}

@@ -133,6 +133,37 @@ html, body {
   color: var(--color-text-muted);
 }
 
+/* Enllaç a la pàgina "Sobre el projecte" */
+.brand-info-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 5px 12px 5px 9px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-light);
+  border: 1px solid rgba(167, 69, 38, 0.18);
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.brand-info-link:hover {
+  color: #fff;
+  background: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(167, 69, 38, 0.3);
+}
+
+.brand-info-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.brand-info-link:hover .brand-info-arrow {
+  transform: translateX(3px);
+}
+
 /* --- Panell de control (tres files) --- */
 #control-panel {
   width: 480px;
@@ -1113,6 +1144,11 @@ html, body {
     display: none;
   }
 
+  .brand-info-link {
+    align-self: center;
+    margin: 0 0 0 auto;
+  }
+
   #control-panel {
     width: auto;
   }
@@ -1198,6 +1234,14 @@ html, body {
 
 /* Mòbil molt estret: el commutador de vista només amb icones */
 @media (max-width: 400px) {
+  .brand-info-text {
+    display: none;
+  }
+
+  .brand-info-link {
+    padding: 5px 9px;
+  }
+
   .toggle-btn span {
     display: none;
   }
