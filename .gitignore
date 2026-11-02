@@ -7,3 +7,7 @@ Thumbs.db
 # Dades personals de l'alumnat (pla d'aula amb noms reals): no publicar a GitHub
 img/plano-asientos-aula-principal.png
 gestion_entregas/entregas/exemple_Juan/
+
+# Remotion: dependencias y caché locales
+video-projecte/node_modules/
+video-projecte/out/

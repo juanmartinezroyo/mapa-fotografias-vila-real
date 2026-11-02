@@ -360,6 +360,27 @@ html {
   color: var(--color-text-muted);
 }
 
+/* --- Vídeo explicatiu --- */
+.pj-video {
+  max-width: 960px;
+  margin: 0 auto 56px;
+}
+
+.pj-video video {
+  display: block;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+  background: #000;
+}
+
+.pj-video figcaption {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
 /* --- Passos (línia de temps) --- */
 .pj-steps {
   list-style: none;
